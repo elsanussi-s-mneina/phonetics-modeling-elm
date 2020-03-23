@@ -844,3 +844,7 @@ view model =
             ]
 
 
+
+-- Note: I used an online tool (on March 23, 2020) to translate the HTML I had previously written
+-- to Elm source code.
+-- You can find that tool at: https://mbylstra.github.io/html-to-elm/
