@@ -56,8 +56,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-            [ textarea [ id "screen" ]
-                []
+            [ textarea [ id "screen"] 
+                [text (model) ]
             , b []
                 [ text "Press buttons below to write text here." ]
             , h1 []
