@@ -97,7 +97,7 @@ typingButton model theText =
         , Border.color darkBlue
         , paddingXY 32 16
         , Border.rounded 3
-        , width fill
+        , width (px 50)
         ]
         { onPress = Just (Update { model | comment = model.comment ++ theText })
         , label = Element.text theText
@@ -109,7 +109,7 @@ emptyButtonSpace =
         , Border.color darkBlue
         , paddingXY 32 16
         , Border.rounded 3
-        , width fill
+        , width (px 50)
         ]
         { onPress = Nothing
         , label = Element.text ""
@@ -121,7 +121,7 @@ createRowOfIPATable model listOfChars =
            case aChar of
              ' ' -> emptyButtonSpace
              x   -> typingButton model (String.fromChar x)
-    in  (List.map typingButtonOrSpace listOfChars)
+    in  Element.row [spacing 10] (List.map typingButtonOrSpace listOfChars)
 
 
 view model =
@@ -154,6 +154,13 @@ view model =
                 , Font.size 30
                 ]
                 (text "Consonants (Pulmonic)")
-            , Element.row [spacing 10]
-                (createRowOfIPATable model plosivePulmonic)
+            ,   (createRowOfIPATable model plosivePulmonic           )
+            ,   (createRowOfIPATable model plosivePulmonic           )         
+            ,   (createRowOfIPATable model nasalPulmonic             )              
+            ,   (createRowOfIPATable model trillPulmonic             )              
+            ,   (createRowOfIPATable model tapOrFlapPulmonic         )          
+            ,   (createRowOfIPATable model fricativePulmonic         )          
+            ,   (createRowOfIPATable model lateralFricativePulmonic  )   
+            ,   (createRowOfIPATable model approximantPulmonic       )        
+            ,   (createRowOfIPATable model lateralApproximantPulmonic) 
             ]
