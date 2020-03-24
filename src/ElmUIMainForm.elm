@@ -64,12 +64,12 @@ main =
 
 
 init =
-    { comment = ""
+    { phonologyText = ""
     }
 
 
 type alias Form =
-    { comment : String
+    { phonologyText : String
     }
 
 
@@ -98,7 +98,7 @@ typingButtonVoiced model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
         , label = Element.text theText
         }
 
@@ -118,7 +118,7 @@ typingButtonVoiceless model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
         , label = Element.text theText
         }
 
@@ -133,7 +133,7 @@ typingButton model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
         , label = Element.text theText
         }
 emptyButtonSpace =  
@@ -173,9 +173,9 @@ view model =
                 , spacing 12
                 , padding 10
                 ]
-                { text = model.comment
+                { text = model.phonologyText
                 , placeholder = Just (Input.placeholder [] (text ""))
-                , onChange = \new -> Update { model | comment = new }
+                , onChange = \new -> Update { model | phonologyText = new }
                 , label = Input.labelBelow [ Font.size 14 ] (text "Press buttons below to write text here.")
                 , spellcheck = False
                 }
