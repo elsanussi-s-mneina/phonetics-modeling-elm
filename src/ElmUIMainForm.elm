@@ -64,22 +64,12 @@ main =
 
 
 init =
-    { username = ""
-    , password = ""
-    , agreeTOS = False
-    , comment = ""
-    , lunch = Gyro
-    , spiciness = 2
+    { comment = ""
     }
 
 
 type alias Form =
-    { username : String
-    , password : String
-    , agreeTOS : Bool
-    , comment : String
-    , lunch : Lunch
-    , spiciness : Float
+    { comment : String
     }
 
 
@@ -91,13 +81,6 @@ update msg model =
     case Debug.log "msg" msg of
         Update new ->
             new
-
-
-type Lunch
-    = Burrito
-    | Taco
-    | Gyro
-
 
 
 typingButtonVoiced model theText =
