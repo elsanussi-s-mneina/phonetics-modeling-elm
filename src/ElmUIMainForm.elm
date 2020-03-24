@@ -118,7 +118,7 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.row []
+            , Element.row [spacing 10]
                 [ typingButton model "p"
                 , typingButton model "b"
                 ]
