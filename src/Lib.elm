@@ -1,4 +1,5 @@
-module Lib exposing (..)
+module Lib exposing (Phonet(..), englishDescription, VocalFolds(..),
+  Place(..), Manner(..), Airstream(..))
 
 
 

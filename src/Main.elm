@@ -11,6 +11,7 @@ import Browser
 import Html exposing (Html, button, div, text, textarea, b, h1, h2, table, tr, th, td, br, span)
 import Html.Attributes exposing (attribute, id, class)
 import Html.Events exposing (onClick)
+import Lib exposing (englishDescription, Phonet(..), VocalFolds(..), Place(..), Manner(..), Airstream(..))
 
 
 
@@ -38,8 +39,8 @@ init =
 
 
 type Msg
-  = 
-  InsertText String
+  = InsertText String
+  | Describe
 
 
 update : Msg -> Model -> Model
@@ -47,6 +48,8 @@ update msg model =
   case msg of
     InsertText str -> 
       model ++ str
+    Describe ->
+        model ++ englishDescription (Consonant Voiceless Velar Fricative PulmonicEgressive)
 
 
 typingButton theText = 
