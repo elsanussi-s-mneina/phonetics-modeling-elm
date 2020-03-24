@@ -51,6 +51,15 @@ approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' 
 lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
 
 
+closeVowels     =  ['i', 'y',   'ɨ', 'ʉ',   'ɯ', 'u']   -- Close
+nearCloseVowels =  ['ɪ', 'ʏ',            'ʊ']
+closeMidVowels  =  ['e', 'ø',   'ɘ', 'ɵ',   'ɤ', 'o']   -- Close-mid
+midVowels       =                ['ə']
+openMidVowels   =  [ 'ɛ', 'œ',   'ɜ', 'ɞ',   'ʌ', 'ɔ']  -- Open-mid
+nearOpenVowels  =  [ 'æ',           'ɐ'              ]
+openVowels      =  [ 'a', 'ɶ',              'ɑ', 'ɒ' ]  -- Open
+
+
 main =
     Browser.sandbox
         { init = init
@@ -197,5 +206,14 @@ view model =
                 , (createRowOfIPATable model lateralFricativePulmonic  )   
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
+                ]
+            , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ (createRowOfIPATable model closeVowels    )
+                , (createRowOfIPATable model nearCloseVowels)
+                , (createRowOfIPATable model closeMidVowels )
+                , (createRowOfIPATable model midVowels      )
+                , (createRowOfIPATable model openMidVowels  )
+                , (createRowOfIPATable model nearOpenVowels )
+                , (createRowOfIPATable model openVowels     )
                 ]
             ]
