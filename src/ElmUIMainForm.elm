@@ -79,6 +79,21 @@ type Lunch
     | Gyro
 
 
+
+typingButton model theText = 
+    Input.button
+        [ Background.color blue
+        , Font.color white
+        , Border.color darkBlue
+        , paddingXY 32 16
+        , Border.rounded 3
+        , width fill
+        ]
+        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        , label = Element.text theText
+        }
+
+
 view model =
     Element.layout
         [ Font.size 20
@@ -103,15 +118,8 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Input.button
-                [ Background.color blue
-                , Font.color white
-                , Border.color darkBlue
-                , paddingXY 32 16
-                , Border.rounded 3
-                , width fill
+            , Element.row []
+                [ typingButton model "p"
+                , typingButton model "b"
                 ]
-                { onPress = Just (Update { model | comment = model.comment ++ "p" })
-                , label = Element.text "p"
-                }
             ]
