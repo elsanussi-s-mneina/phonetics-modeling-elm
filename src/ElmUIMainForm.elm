@@ -14,6 +14,9 @@ import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
 
+isEven x = modBy 2 x == 0
+
+voicedMask = List.map isEven (List.range 1 22)
 
 plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
 nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
@@ -90,14 +93,55 @@ type Lunch
 
 
 
+typingButtonVoiced model theText =
+    Input.button
+        [ Background.color blue
+        , Font.color white
+        , Border.color darkBlue
+        , padding 10
+        , Border.roundEach 
+            { topLeft     = 0
+            , topRight    = 20
+            , bottomLeft  = 0
+            , bottomRight = 0
+            }
+        , width (px 50)
+        , Font.center
+        ]
+        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        , label = Element.text theText
+        }
+
+
+typingButtonVoiceless model theText = 
+    Input.button
+        [ Background.color blue
+        , Font.color white
+        , Border.color darkBlue
+        , padding 10
+        , Border.roundEach 
+            { topLeft     = 20
+            , topRight    = 0
+            , bottomLeft  = 0
+            , bottomRight = 0
+            }
+        , width (px 50)
+        , Font.center
+        ]
+        { onPress = Just (Update { model | comment = model.comment ++ theText })
+        , label = Element.text theText
+        }
+
+
 typingButton model theText = 
     Input.button
         [ Background.color blue
         , Font.color white
         , Border.color darkBlue
-        , paddingXY 32 16
-        , Border.rounded 3
+        , padding 10
+        , Border.rounded 4 
         , width (px 50)
+        , Font.center
         ]
         { onPress = Just (Update { model | comment = model.comment ++ theText })
         , label = Element.text theText
@@ -107,8 +151,8 @@ emptyButtonSpace =
         [ Background.color grey
         , Font.color white
         , Border.color darkBlue
-        , paddingXY 32 16
-        , Border.rounded 3
+        , padding 10
+        , Border.rounded 0
         , width (px 50)
         ]
         { onPress = Nothing
@@ -117,11 +161,13 @@ emptyButtonSpace =
 
 
 createRowOfIPATable model listOfChars =
-    let typingButtonOrSpace aChar = 
+    let typingButtonOrSpace aChar voiced = 
            case aChar of
              ' ' -> emptyButtonSpace
-             x   -> typingButton model (String.fromChar x)
-    in  Element.row [spacing 10] (List.map typingButtonOrSpace listOfChars)
+             x   -> case voiced of
+                      True -> typingButtonVoiced model (String.fromChar x)
+                      False -> typingButtonVoiceless model (String.fromChar x)
+    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace listOfChars voicedMask)
 
 
 view model =
