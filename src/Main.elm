@@ -49,6 +49,33 @@ update msg model =
       model ++ str
 
 
+typingButton theText = 
+    button [ onClick (InsertText theText) ]      [ text theText ]
+
+typingButtonWithClass theClass theText =
+    button [ class theClass, onClick (InsertText theText) ]      [ text theText ]
+
+typingButtonVoiceless theText = typingButtonWithClass "voiceless" theText
+typingButtonVoiced theText = typingButtonWithClass "voiced" theText
+
+typingButtonVowel theLeftMargin theText  =
+    button [ class "vowel", attribute "style" ("margin-left:" ++ theLeftMargin ++ "px"), onClick (InsertText theText) ]
+                                [ text theText ]
+
+typingButtonVowelNoMargin theText  =
+    button [ class "vowel", onClick (InsertText theText) ]
+                                [ text theText ]
+
+typingButtonRoundedVowel theLeftMargin theText  = 
+    button [ class "vowel rounded", attribute "style" ("margin-left:" ++ theLeftMargin ++ "px"), onClick (InsertText theText) ]
+                                [ text theText ]
+
+typingButtonRoundedVowelNoMargin theText  = 
+    button [ class "vowel rounded", onClick (InsertText theText) ]
+                                [ text theText ]
+
+emptyButtonSpace = button [ attribute "style" "visibility: hidden;" ] []
+
 
 -- VIEW
 
@@ -56,7 +83,9 @@ update msg model =
 view : Model -> Html Msg
 view model =
   div []
-            [ textarea [ id "screen"] 
+            [ button [ class "voiceless", onClick (Describe) ]
+                [ text "describe" ] 
+            , textarea [ id "screen"] 
                 [text (model) ]
             , b []
                 [ text "Press buttons below to write text here." ]
@@ -95,98 +124,72 @@ view model =
                     [ th []
                         [ text "Plosive" ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "p") ]
-                            [ text "p" ]
-                        , button [ class "voiced", onClick (InsertText "b") ]
-                            [ text "b" ]
+                        [ typingButtonVoiceless "p"
+                        , typingButtonVoiced "b"
                         ]
                     , td []
                         []
                     , td []
                         []
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "t") ]
-                            [ text "t" ]
-                        , button [ class "voiced", onClick (InsertText "d") ]
-                            [ text "d" ]
+                        [ typingButtonVoiceless "t"
+                        , typingButtonVoiced "d"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ʈ") ]
-                            [ text "ʈ" ]
-                        , button [ class "voiced", onClick (InsertText "ɖ") ]
-                            [ text "ɖ" ]
+                        [ typingButtonVoiceless "ʈ"
+                        , typingButtonVoiced "ɖ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "c") ]
-                            [ text "c" ]
-                        , button [ class "voiced", onClick (InsertText "ɟ") ]
-                            [ text "ɟ" ]
+                        [ typingButtonVoiceless "c"
+                        , typingButtonVoiced "ɟ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "k") ]
-                            [ text "k" ]
-                        , button [ class "voiced", onClick (InsertText "g") ]
-                            [ text "g" ]
+                        [ typingButtonVoiceless "k"
+                        , typingButtonVoiced "g"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "q") ]
-                            [ text "q" ]
-                        , button [ class "voiced", onClick (InsertText "ɢ") ]
-                            [ text "ɢ" ]
+                        [ typingButtonVoiceless "q"
+                        , typingButtonVoiced "ɢ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ʔ") ]
-                            [ text "ʔ" ]
-                        , button [ attribute "style" "visibility: hidden;" ]
-                            []
+                        [ typingButtonVoiceless "ʔ"
+                        , emptyButtonSpace
                         ]
                     ]
                 , tr []
                     [ th []
                         [ text "Nasal" ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "m") ]
-                            [ text "m" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "m"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɱ") ]
-                            [ text "ɱ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɱ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "n") ]
-                            [ text "n" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "n"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɳ") ]
-                            [ text "ɳ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɳ"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɲ") ]
-                            [ text "ɲ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɲ"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɴ") ]
-                            [ text "ɴ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɴ"
                         ]
                     , td []
                         []
@@ -199,20 +202,16 @@ view model =
                     [ th []
                         [ text "Trill" ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ʙ") ]
-                            [ text "ʙ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ʙ"
                         ]
                     , td []
                         []
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "r") ]
-                            [ text "r" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "r"
                         ]
                     , td []
                         []
@@ -221,10 +220,8 @@ view model =
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ʀ") ]
-                            [ text "ʀ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ʀ"
                         ]
                     , td []
                         []
@@ -239,26 +236,20 @@ view model =
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ⱱ") ]
-                            [ text "ⱱ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ⱱ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɾ") ]
-                            [ text "ɾ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɾ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɽ") ]
-                            [ text "ɽ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɽ"
                         ]
                     , td []
                         []
@@ -275,70 +266,48 @@ view model =
                     [ th []
                         [ text "Fricative" ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ɸ") ]
-                            [ text "ɸ" ]
-                        , button [ class "voiced", onClick (InsertText "β") ]
-                            [ text "β" ]
+                        [ typingButtonVoiceless "ɸ"
+                        , typingButtonVoiced "β"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "f") ]
-                            [ text "f" ]
-                        , button [ class "voiced", onClick (InsertText "v") ]
-                            [ text "v" ]
+                        [ typingButtonVoiceless "f"
+                        , typingButtonVoiced "v"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "θ") ]
-                            [ text "θ" ]
-                        , button [ class "voiced", onClick (InsertText "ð") ]
-                            [ text "ð" ]
+                        [ typingButtonVoiceless "θ"
+                        , typingButtonVoiced "ð"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "s") ]
-                            [ text "s" ]
-                        , button [ class "voiced", onClick (InsertText "z") ]
-                            [ text "z" ]
+                        [ typingButtonVoiceless "s"
+                        , typingButtonVoiced "z"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ʃ") ]
-                            [ text "ʃ" ]
-                        , button [ class "voiced", onClick (InsertText "ʒ") ]
-                            [ text "ʒ" ]
+                        [ typingButtonVoiceless "ʃ"
+                        , typingButtonVoiced "ʒ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ʂ") ]
-                            [ text "ʂ" ]
-                        , button [ class "voiced", onClick (InsertText "ʐ") ]
-                            [ text "ʐ" ]
+                        [ typingButtonVoiceless "ʂ"
+                        , typingButtonVoiced "ʐ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ç") ]
-                            [ text "ç" ]
-                        , button [ class "voiced", onClick (InsertText "ʝ") ]
-                            [ text "ʝ" ]
+                        [ typingButtonVoiceless "ç"
+                        , typingButtonVoiced "ʝ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "x") ]
-                            [ text "x" ]
-                        , button [ class "voiced", onClick (InsertText "ɣ") ]
-                            [ text "ɣ" ]
+                        [ typingButtonVoiceless "x"
+                        , typingButtonVoiced "ɣ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "χ") ]
-                            [ text "χ" ]
-                        , button [ class "voiced", onClick (InsertText "ʁ") ]
-                            [ text "ʁ" ]
+                        [ typingButtonVoiceless "χ"
+                        , typingButtonVoiced "ʁ" 
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ħ") ]
-                            [ text "ħ" ]
-                        , button [ class "voiced", onClick (InsertText "ʕ") ]
-                            [ text "ʕ" ]
+                        [ typingButtonVoiceless "ħ"
+                        , typingButtonVoiced "ʕ"
                         ]
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "h") ]
-                            [ text "h" ]
-                        , button [ class "voiced", onClick (InsertText "ɦ") ]
-                            [ text "ɦ" ]
+                        [ typingButtonVoiceless "h"
+                        , typingButtonVoiced "ɦ"
                         ]
                     ]
                 , tr []
@@ -351,10 +320,8 @@ view model =
                     , td []
                         []
                     , td []
-                        [ button [ class "voiceless", onClick (InsertText "ɬ") ]
-                            [ text "ɬ" ]
-                        , button [ attribute "style" "align-self:right", onClick (InsertText "ɮ") ]
-                            [ text "ɮ" ]
+                        [ typingButtonVoiceless "ɬ"
+                        , typingButtonVoiced "ɮ"
                         ]
                     , td []
                         []
@@ -377,38 +344,28 @@ view model =
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ʋ") ]
-                            [ text "ʋ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ʋ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɹ") ]
-                            [ text "ɹ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɹ"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɻ") ]
-                            [ text "ɻ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɻ"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "j") ]
-                            [ text "j" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "j"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɰ") ]
-                            [ text "ɰ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɰ"
                         ]
                     , td []
                         []
@@ -427,30 +384,22 @@ view model =
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "l") ]
-                            [ text "l" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "l"
                         ]
                     , td []
                         []
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ɭ") ]
-                            [ text "ɭ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ɭ"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ʎ") ]
-                            [ text "ʎ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ʎ"
                         ]
                     , td []
-                        [ button [ attribute "style" "visibility: hidden;" ]
-                            []
-                        , button [ class "voiced", onClick (InsertText "ʟ") ]
-                            [ text "ʟ" ]
+                        [ emptyButtonSpace
+                        , typingButtonVoiced "ʟ"
                         ]
                     , td []
                         []
@@ -476,66 +425,55 @@ view model =
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ʘ")]
-                                        [ text "ʘ" ]
+                                    [ typingButton "ʘ" 
                                     , text "Bilabial"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ɓ")]
-                                        [ text "ɓ" ]
+                                    [ typingButton "ɓ"
                                     , text "Bilabial"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ʼ")]
-                                        [ text "ʼ" ]
+                                    [ typingButton "ʼ"
                                     , text "Ejective"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ǀ")]
-                                        [ text "ǀ" ]
+                                    [ typingButton "ǀ"
                                     , text "Dental  "
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ɗ")]
-                                        [ text "ɗ" ]
+                                    [ typingButton "ɗ"
                                     , text "Dental/alveolar"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ǃ")]
-                                        [ text "ǃ" ]
+                                    [ typingButton "ǃ"
                                     , text "(Post)alveolar "
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ʄ")]
-                                        [ text "ʄ" ]
+                                    [ typingButton "ʄ"
                                     , text "Palatal"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ǂ")]
-                                        [ text "ǂ" ]
+                                    [ typingButton "ǂ"
                                     , text "Palatoalveolar"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ɠ")]
-                                        [ text "ɠ" ]
+                                    [ typingButton "ɠ"
                                     , text "Velar"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ǁ")]
-                                        [ text "ǁ" ]
+                                    [ typingButton "ǁ"
                                     , text "Alveolar lateral"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ʛ")]
-                                        [ text "ʛ" ]
+                                    [ typingButton "ʛ"
                                     , text "Uvular"
                                     ]
                                 ]
@@ -556,77 +494,49 @@ view model =
                             [ text "Back" ]
                         , br []
                             []
-                        , button [ class "vowel", onClick (InsertText "i") ]
-                            [ text "i" ]
-                        , button [ class "vowel rounded", onClick (InsertText "y") ]
-                            [ text "y" ]
-                        , button [ class "vowel", attribute "style" "margin-left:100px", onClick (InsertText "ɨ") ]
-                            [ text "ɨ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ʉ") ]
-                            [ text "ʉ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:100px", onClick (InsertText "ɯ") ]
-                            [ text "ɯ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "u") ]
-                            [ text "u" ]
+                        , typingButtonVowelNoMargin "i"
+                        , typingButtonRoundedVowelNoMargin "y"
+                        , typingButtonVowel "100" "ɨ"
+                        , typingButtonRoundedVowelNoMargin "ʉ"
+                        , typingButtonVowel "100" "ɯ"
+                        , typingButtonRoundedVowelNoMargin "u"
                         , text "Close            "
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:100px", onClick (InsertText "ɪ") ]
-                            [ text "ɪ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ʏ") ]
-                            [ text "ʏ" ]
-                        , button [ class "vowel rounded", attribute "style" "margin-left:150px", onClick (InsertText "ʊ") ]
-                            [ text "ʊ" ]
+                        , typingButtonVowel "100" "ɪ"
+                        , typingButtonRoundedVowelNoMargin "ʏ"
+                        , typingButtonRoundedVowel "150" "ʊ"
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:50px", onClick (InsertText "e") ]
-                            [ text "e" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ø") ]
-                            [ text "ø" ]
-                        , button [ class "vowel", attribute "style" "margin-left:50px", onClick (InsertText "ɘ") ]
-                            [ text "ɘ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ɵ") ]
-                            [ text "ɵ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:100px", onClick (InsertText "ɤ") ]
-                            [ text "ɤ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "o") ]
-                            [ text "o" ]
+                        , typingButtonVowel "50" "e"
+                        , typingButtonRoundedVowelNoMargin "ø"
+                        , typingButtonVowel "50" "ɘ"
+                        , typingButtonRoundedVowelNoMargin "ɵ"
+                        , typingButtonVowel "100" "ɤ"
+                        , typingButtonRoundedVowelNoMargin "o"
                         , text "Close-mid            "
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:230px", onClick (InsertText "ə") ]
-                            [ text "ə" ]
+                        , typingButtonVowel "230" "ə"
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:80px", onClick (InsertText "ɛ") ]
-                            [ text "ɛ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "œ") ]
-                            [ text "œ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:20px", onClick (InsertText "ɜ") ]
-                            [ text "ɜ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ɞ") ]
-                            [ text "ɞ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:100px", onClick (InsertText "ʌ") ]
-                            [ text "ʌ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ɔ") ]
-                            [ text "ɔ" ]
+                        , typingButtonVowel "80" "ɛ"
+                        , typingButtonRoundedVowelNoMargin "œ"
+                        , typingButtonVowel "20" "ɜ"
+                        , typingButtonRoundedVowelNoMargin "ɞ"
+                        , typingButtonVowel "100" "ʌ"
+                        , typingButtonRoundedVowelNoMargin "ɔ"
                         , text "Open-mid            "
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:120px", onClick (InsertText "æ") ]
-                            [ text "æ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:60px", onClick (InsertText "ɐ") ]
-                            [ text "ɐ" ]
+                        , typingButtonVowel "120" "æ"
+                        , typingButtonVowel "60" "ɐ"
                         , br []
                             []
-                        , button [ class "vowel", attribute "style" "margin-left:110px", onClick (InsertText "a") ]
-                            [ text "a" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ɶ") ]
-                            [ text "ɶ" ]
-                        , button [ class "vowel", attribute "style" "margin-left:200px", onClick (InsertText "ɑ") ]
-                            [ text "ɑ" ]
-                        , button [ class "vowel rounded", onClick (InsertText "ɒ") ]
-                            [ text "ɒ" ]
+                        , typingButtonVowel "110" "a"
+                        , typingButtonRoundedVowelNoMargin "ɶ"
+                        , typingButtonVowel "200" "ɑ"
+                        , typingButtonRoundedVowelNoMargin "ɒ"
                         , text "Open        "
                         ]
                     ]
@@ -637,67 +547,56 @@ view model =
                         , table []
                             [ tr []
                                 [ td []
-                                    [ button [ class "voiceless", onClick (InsertText "ʍ") ]
-                                        [ text "ʍ" ]
+                                    
+                                    [ typingButtonVoiceless "ʍ"
                                     , text "Voiceless labial-velar fricative"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ɕ")]
-                                        [ text "ɕ" ]
-                                    , button [ class "voiced", onClick (InsertText "ʑ") ]
-                                        [ text "ʑ" ]
+                                    [ typingButtonVoiceless "ɕ"
+                                    , typingButtonVoiced "ʑ"
                                     , text "Alveolo-palatal fricatives"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ class "voiced", onClick (InsertText "w") ]
-                                        [ text "w" ]
+                                    [ typingButtonVoiced "w"
                                     , text "Voiced labial-velar approximant"
                                     ]
                                 , td []
-                                    [ button [ class "voiced", onClick (InsertText "ɺ") ]
-                                        [ text "ɺ" ]
+                                    [ typingButtonVoiced "ɺ"
                                     , text "Voiced alveolar lateral flap"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ class "voiced", onClick (InsertText "ɥ") ]
-                                        [ text "ɥ" ]
+                                    [ typingButtonVoiced "ɥ"
                                     , text "Voiced labial-palatal approximant"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ɧ")]
-                                        [ text "ɧ" ]
+                                    [ typingButtonVoiceless "ɧ"
                                     , text "Simultaneous ʃ and x"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ class "voiceless", onClick (InsertText "ʜ") ]
-                                        [ text "ʜ" ]
+                                    [ typingButtonVoiceless "ʜ"
                                     , text "Voiceless epiglottal fricative"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ class "voiced", onClick (InsertText "ʢ") ]
-                                        [ text "ʢ" ]
+                                    [ typingButtonVoiced "ʢ"
                                     , text "Voiced epiglottal fricative"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ʡ")]
-                                        [ text "ʡ" ]
+                                    [ typingButton "ʡ"
                                     , text "Epiglottal plosive"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "͡")]
-                                        [ text "͡" ]
-                                    , button [ onClick (InsertText "͜")]
-                                        [ text "͜" ]
+                                    [ typingButton "͡"
+                                    , typingButton "͜"
                                     , text "Double articulation/ affricate"
                                     ]
                                 ]
@@ -709,129 +608,106 @@ view model =
                         , table []
                             [ tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̥")]
-                                        [ text "̥" ]
-                                    , button [ onClick (InsertText "̊")]
-                                        [ text "̊" ]
+                                    [ typingButton "̥"
+                                    , typingButton "̊"
                                     , text "Voiceless "
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̤")]
-                                        [ text "̤" ]
+                                    [ typingButton "̤"
                                     , text "Breathy voiced"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̪")]
-                                        [ text "̪" ]
+                                    [ typingButton "̪"
                                     , text "Dental"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̬")]
-                                        [ text "̬" ]
+                                    [ typingButton "̬"
                                     , text "Voiced"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̰")]
-                                        [ text "̰" ]
+                                    [ typingButton "̰"
                                     , text "Creaky voiced"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̺")]
-                                        [ text "̺" ]
+                                    [ typingButton "̺"
                                     , text "Apical"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "ʰ")]
-                                        [ text "ʰ" ]
+                                    [ typingButton "ʰ"
                                     , text "Aspirated"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̼")]
-                                        [ text "̼" ]
+                                    [ typingButton "̼"
                                     , text "Linguolabial"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̻")]
-                                        [ text "̻" ]
+                                    [ typingButton "̻"
                                     , text "Laminal"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̹")]
-                                        [ text "̹" ]
+                                    [ typingButton "̹"
                                     , text "More rounded"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ʷ")]
-                                        [ text "ʷ" ]
+                                    [ typingButton "ʷ"
                                     , text "Labialised "
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̃")]
-                                        [ text "̃" ]
+                                    [ typingButton "̃"
                                     , text "Nasalised"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̜")]
-                                        [ text "̜" ]
+                                    [ typingButton "̜"
                                     , text "Less rounded"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ʲ")]
-                                        [ text "ʲ" ]
+                                    [ typingButton "ʲ"
                                     , text "Palatalised"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ⁿ")]
-                                        [ text "ⁿ" ]
+                                    [ typingButton "ⁿ"
                                     , text "Pre/post nasalised"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̟")]
-                                        [ text "̟" ]
+                                    [ typingButton "̟"
                                     , text "Advanced"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ˠ")]
-                                        [ text "ˠ" ]
+                                    [ typingButton "ˠ"
                                     , text "Velarised"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ˡ")]
-                                        [ text "ˡ" ]
+                                    [ typingButton "ˡ"
                                     , text "Lateral release"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̠")]
-                                        [ text "̠" ]
+                                    [ typingButton "̠"
                                     , text "Retracted"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "ˤ")]
-                                        [ text "ˤ" ]
+                                    [ typingButton "ˤ"
                                     , text "Pharyngealised"
                                     ]
                                 , td []
-                                    [ button [ onClick (InsertText "̚")]
-                                        [ text "̚" ]
+                                    [ typingButton "̚"
                                     , text "No audible release"
                                     ]
                                 ]
                             , tr []
                                 [ td []
-                                    [ button [ onClick (InsertText "̈")]
-                                        [ text "̈" ]
+                                    [ typingButton "̈"
                                     , text "Centralised"
                                     ]
                                 , td []
