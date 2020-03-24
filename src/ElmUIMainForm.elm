@@ -15,6 +15,16 @@ import Element.Input as Input
 import Element.Region as Region
 
 
+plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
+nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
+trillPulmonic              = [ ' ', 'ʙ', ' ', ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'ʀ', ' ', ' ', ' ', ' '] -- Trill
+tapOrFlapPulmonic          = [ ' ', ' ', ' ', 'ⱱ', ' ', ' ', ' ', 'ɾ', ' ', ' ', ' ', 'ɽ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Tap or Flap
+fricativePulmonic          = [ 'ɸ', 'β', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'ʒ', 'ʂ', 'ʐ', 'ç', 'ʝ', 'x', 'ɣ', 'χ', 'ʁ', 'ħ', 'ʕ', 'h', 'ɦ']  -- Fricative
+lateralFricativePulmonic   = [ ' ', ' ', ' ', ' ', ' ', ' ', 'ɬ', 'ɮ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral fricative
+approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' ', ' ', 'ɻ', ' ', 'j', ' ', 'ɰ', ' ', ' ', ' ', ' ', ' ', ' '] -- Approximant
+lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
+
+
 white =
     Element.rgb 1 1 1
 
@@ -92,6 +102,26 @@ typingButton model theText =
         { onPress = Just (Update { model | comment = model.comment ++ theText })
         , label = Element.text theText
         }
+emptyButtonSpace =  
+    Input.button
+        [ Background.color grey
+        , Font.color white
+        , Border.color darkBlue
+        , paddingXY 32 16
+        , Border.rounded 3
+        , width fill
+        ]
+        { onPress = Nothing
+        , label = Element.text ""
+        }
+
+
+createRowOfIPATable model listOfChars =
+    let typingButtonOrSpace aChar = 
+           case aChar of
+             ' ' -> emptyButtonSpace
+             x   -> typingButton model (String.fromChar x)
+    in  (List.map typingButtonOrSpace listOfChars)
 
 
 view model =
@@ -99,7 +129,7 @@ view model =
         [ Font.size 20
         ]
     <|
-        Element.column [ width (px 800), height shrink, centerY, centerX, spacing 36, padding 10, explain Debug.todo ]
+        Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10, explain Debug.todo ]
             [ Input.multiline
                 [ height shrink
                 , spacing 12
@@ -109,7 +139,7 @@ view model =
                 { text = model.comment
                 , placeholder = Just (Input.placeholder [] (text ""))
                 , onChange = \new -> Update { model | comment = new }
-                , label = Input.labelAbove [ Font.size 14 ] (text "")
+                , label = Input.labelBelow [ Font.size 14 ] (text "Press buttons below to write text here.")
                 , spellcheck = False
                 }
             , el
@@ -118,8 +148,12 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.row [spacing 10]
-                [ typingButton model "p"
-                , typingButton model "b"
+            , el
+                [ Region.heading 2
+                , alignLeft
+                , Font.size 30
                 ]
+                (text "Consonants (Pulmonic)")
+            , Element.row [spacing 10]
+                (createRowOfIPATable model plosivePulmonic)
             ]
