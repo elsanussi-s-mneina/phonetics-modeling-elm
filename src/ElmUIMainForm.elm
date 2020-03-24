@@ -39,7 +39,7 @@ darkBlue =
 
 isEven x = modBy 2 x == 0
 
-voicedMask = List.map isEven (List.range 1 22)
+voicedMask = List.map isEven (List.range 1 (List.length plosivePulmonic))
 
 plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
 nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
