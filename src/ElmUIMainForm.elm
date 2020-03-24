@@ -2,10 +2,6 @@ module ElmUIMainForm exposing (..)
 
 {-| -}
 
--- Note: This code started by copying the sample 
--- at https://github.com/mdgriffith/elm-ui/blob/master/examples/Form.elm
--- and deleting various things, and making more and more modifications.
-
 import Browser
 import Element exposing (..)
 import Element.Background as Background
