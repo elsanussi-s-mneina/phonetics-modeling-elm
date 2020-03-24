@@ -132,9 +132,10 @@ view model =
         Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10]
             [ Input.multiline
                 [ height shrink
+                , width (px 1200)
+                , height (px 200)
                 , spacing 12
-
-                -- , padding 6
+                , padding 10
                 ]
                 { text = model.comment
                 , placeholder = Just (Input.placeholder [] (text ""))
