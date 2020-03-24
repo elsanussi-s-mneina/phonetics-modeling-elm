@@ -154,13 +154,15 @@ view model =
                 , Font.size 30
                 ]
                 (text "Consonants (Pulmonic)")
-            ,   (createRowOfIPATable model plosivePulmonic           )
-            ,   (createRowOfIPATable model plosivePulmonic           )         
-            ,   (createRowOfIPATable model nasalPulmonic             )              
-            ,   (createRowOfIPATable model trillPulmonic             )              
-            ,   (createRowOfIPATable model tapOrFlapPulmonic         )          
-            ,   (createRowOfIPATable model fricativePulmonic         )          
-            ,   (createRowOfIPATable model lateralFricativePulmonic  )   
-            ,   (createRowOfIPATable model approximantPulmonic       )        
-            ,   (createRowOfIPATable model lateralApproximantPulmonic) 
+
+            , Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 10, padding 10, explain Debug.todo ]
+                [ (createRowOfIPATable model plosivePulmonic           )
+                , (createRowOfIPATable model nasalPulmonic             )              
+                , (createRowOfIPATable model trillPulmonic             )              
+                , (createRowOfIPATable model tapOrFlapPulmonic         )          
+                , (createRowOfIPATable model fricativePulmonic         )          
+                , (createRowOfIPATable model lateralFricativePulmonic  )   
+                , (createRowOfIPATable model approximantPulmonic       )        
+                , (createRowOfIPATable model lateralApproximantPulmonic) 
+                ]
             ]
