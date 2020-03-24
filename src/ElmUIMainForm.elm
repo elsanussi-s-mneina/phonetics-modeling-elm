@@ -129,7 +129,7 @@ view model =
         [ Font.size 20
         ]
     <|
-        Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10, explain Debug.todo ]
+        Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10]
             [ Input.multiline
                 [ height shrink
                 , spacing 12
@@ -155,7 +155,7 @@ view model =
                 ]
                 (text "Consonants (Pulmonic)")
 
-            , Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 10, padding 10, explain Debug.todo ]
+            , Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 10, padding 10]
                 [ (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
                 , (createRowOfIPATable model trillPulmonic             )              
