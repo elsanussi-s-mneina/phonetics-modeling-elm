@@ -14,19 +14,6 @@ import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
 
-isEven x = modBy 2 x == 0
-
-voicedMask = List.map isEven (List.range 1 22)
-
-plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
-nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
-trillPulmonic              = [ ' ', 'ʙ', ' ', ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'ʀ', ' ', ' ', ' ', ' '] -- Trill
-tapOrFlapPulmonic          = [ ' ', ' ', ' ', 'ⱱ', ' ', ' ', ' ', 'ɾ', ' ', ' ', ' ', 'ɽ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Tap or Flap
-fricativePulmonic          = [ 'ɸ', 'β', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'ʒ', 'ʂ', 'ʐ', 'ç', 'ʝ', 'x', 'ɣ', 'χ', 'ʁ', 'ħ', 'ʕ', 'h', 'ɦ']  -- Fricative
-lateralFricativePulmonic   = [ ' ', ' ', ' ', ' ', ' ', ' ', 'ɬ', 'ɮ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral fricative
-approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' ', ' ', 'ɻ', ' ', 'j', ' ', 'ɰ', ' ', ' ', ' ', ' ', ' ', ' '] -- Approximant
-lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
-
 
 white =
     Element.rgb 1 1 1
@@ -34,6 +21,12 @@ white =
 
 grey =
     Element.rgb 0.9 0.9 0.9
+
+darkGrey =
+    Element.rgb 0.2 0.2 0.2
+
+charcoal =
+    Element.rgb 0.1 0.1 0.1
 
 
 blue =
@@ -46,6 +39,20 @@ red =
 
 darkBlue =
     Element.rgb 0 0 0.9
+
+
+isEven x = modBy 2 x == 0
+
+voicedMask = List.map isEven (List.range 1 22)
+
+plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
+nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
+trillPulmonic              = [ ' ', 'ʙ', ' ', ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'ʀ', ' ', ' ', ' ', ' '] -- Trill
+tapOrFlapPulmonic          = [ ' ', ' ', ' ', 'ⱱ', ' ', ' ', ' ', 'ɾ', ' ', ' ', ' ', 'ɽ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Tap or Flap
+fricativePulmonic          = [ 'ɸ', 'β', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'ʒ', 'ʂ', 'ʐ', 'ç', 'ʝ', 'x', 'ɣ', 'χ', 'ʁ', 'ħ', 'ʕ', 'h', 'ɦ']  -- Fricative
+lateralFricativePulmonic   = [ ' ', ' ', ' ', ' ', ' ', ' ', 'ɬ', 'ɮ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral fricative
+approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' ', ' ', 'ɻ', ' ', 'j', ' ', 'ɰ', ' ', ' ', ' ', ' ', ' ', ' '] -- Approximant
+lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
 
 
 main =
@@ -95,8 +102,8 @@ type Lunch
 
 typingButtonVoiced model theText =
     Input.button
-        [ Background.color blue
-        , Font.color white
+        [ Background.color grey
+        , Font.color charcoal
         , Border.color darkBlue
         , padding 10
         , Border.roundEach 
@@ -115,8 +122,8 @@ typingButtonVoiced model theText =
 
 typingButtonVoiceless model theText = 
     Input.button
-        [ Background.color blue
-        , Font.color white
+        [ Background.color grey
+        , Font.color darkGrey
         , Border.color darkBlue
         , padding 10
         , Border.roundEach 
@@ -202,7 +209,7 @@ view model =
                 ]
                 (text "Consonants (Pulmonic)")
 
-            , Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 10, padding 10]
+            , Element.column [ width (px 1500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
                 , (createRowOfIPATable model trillPulmonic             )              
