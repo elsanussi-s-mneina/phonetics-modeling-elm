@@ -10,7 +10,24 @@ import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
 import Lib exposing (showPhonet)
-import Grapheme.InternationalPhoneticAlphabet exposing (analyzeIPA)
+import Grapheme.InternationalPhoneticAlphabet exposing 
+               ( analyzeIPA
+               , plosivePulmonic           
+               , nasalPulmonic             
+               , trillPulmonic             
+               , tapOrFlapPulmonic         
+               , fricativePulmonic         
+               , lateralFricativePulmonic  
+               , approximantPulmonic       
+               , lateralApproximantPulmonic
+               , closeVowels    
+               , nearCloseVowels
+               , closeMidVowels 
+               , midVowels      
+               , openMidVowels  
+               , nearOpenVowels 
+               , openVowels     
+               )
 
 white =
     Element.rgb 1 1 1
@@ -42,25 +59,8 @@ isEven x = modBy 2 x == 0
 
 voicedMask = List.map isEven (List.range 1 (List.length plosivePulmonic))
 
-plosivePulmonic            = [ 'p', 'b', ' ', ' ', ' ', ' ', 't', 'd', ' ', ' ', 'ʈ', 'ɖ', 'c', 'ɟ', 'k', 'g', 'q', 'ɢ', ' ', ' ', 'ʔ', ' '] -- Plosive
-nasalPulmonic              = [ ' ', 'm', ' ', 'ɱ', ' ', ' ', ' ', 'n', ' ', ' ', ' ', 'ɳ', ' ', 'ɲ', ' ', 'ŋ', ' ', 'ɴ', ' ', ' ', ' ', ' '] -- Nasal
-trillPulmonic              = [ ' ', 'ʙ', ' ', ' ', ' ', ' ', ' ', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'ʀ', ' ', ' ', ' ', ' '] -- Trill
-tapOrFlapPulmonic          = [ ' ', ' ', ' ', 'ⱱ', ' ', ' ', ' ', 'ɾ', ' ', ' ', ' ', 'ɽ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Tap or Flap
-fricativePulmonic          = [ 'ɸ', 'β', 'f', 'v', 'θ', 'ð', 's', 'z', 'ʃ', 'ʒ', 'ʂ', 'ʐ', 'ç', 'ʝ', 'x', 'ɣ', 'χ', 'ʁ', 'ħ', 'ʕ', 'h', 'ɦ']  -- Fricative
-lateralFricativePulmonic   = [ ' ', ' ', ' ', ' ', ' ', ' ', 'ɬ', 'ɮ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral fricative
-approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' ', ' ', 'ɻ', ' ', 'j', ' ', 'ɰ', ' ', ' ', ' ', ' ', ' ', ' '] -- Approximant
-lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
 
-
-closeVowels     =  ['i', 'y', ' ', ' ',  'ɨ', 'ʉ',   'ɯ', 'u']   -- Close
-nearCloseVowels =  [' ', 'ɪ', 'ʏ', ' ', ' ',  'ʊ', ' ']
-closeMidVowels  =  ['e', 'ø',' ',   'ɘ', 'ɵ',   'ɤ', 'o']   -- Close-mid
-midVowels       =  [' ', ' ', ' ', 'ə', ' ' , ' ']
-openMidVowels   =  [ 'ɛ', 'œ',   'ɜ', 'ɞ',   'ʌ', 'ɔ']  -- Open-mid
-nearOpenVowels  =  [ 'æ',  ' ', 'ɐ', ' ', ' ' ]
-openVowels      =  [ 'a', 'ɶ', ' ', 'ɑ', 'ɒ' ]  -- Open
-
-roundedVowels = ['y', 'ʉ', 'u', 'ʏ',            'ʊ', 'ø', 'ɵ', 'o', 'œ', 'ɞ', 'ɔ',  'ɶ', 'ɒ']
+roundedVowels = ["y", "ʉ", "u", "ʏ",            "ʊ", "ø", "ɵ", "o", "œ", "ɞ", "ɔ",  "ɶ", "ɒ"]
 
 main =
     Browser.sandbox
@@ -205,19 +205,19 @@ emptyButtonSpace =
 createRowOfIPATable model listOfChars =
     let typingButtonOrSpace aChar voiced = 
            case aChar of
-             ' ' -> emptyButtonSpace
+             " " -> emptyButtonSpace
              x   -> case voiced of
-                      True -> typingButtonVoiced model (String.fromChar x)
-                      False -> typingButtonVoiceless model (String.fromChar x)
+                      True -> typingButtonVoiced model x
+                      False -> typingButtonVoiceless model x
     in  Element.row [spacing 10] (List.map2 typingButtonOrSpace listOfChars voicedMask)
 
 createRowOfVowels model listOfChars =
     let typingButtonOrSpace aChar =
            case aChar of
-             ' ' -> emptyButtonSpace
+             " " -> emptyButtonSpace
              x   -> case (List.member aChar roundedVowels) of
-                      True -> typingButtonRoundedVowel model (String.fromChar x)
-                      False -> typingButtonVowel model (String.fromChar x)
+                      True -> typingButtonRoundedVowel model x
+                      False -> typingButtonVowel model x
     in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
 
 subKeyboardHeading userFacingText = 
