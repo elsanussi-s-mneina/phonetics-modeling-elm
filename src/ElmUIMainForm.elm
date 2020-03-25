@@ -9,7 +9,8 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-
+import Lib exposing (showPhonet)
+import Grapheme.InternationalPhoneticAlphabet exposing (analyzeIPA)
 
 white =
     Element.rgb 1 1 1
@@ -71,11 +72,15 @@ main =
 
 init =
     { phonologyText = ""
+    , glossText = "Press buttons below to write text here."  -- This should contain what we call the phonemes in English
+    , currentUserInput = Nothing
     }
 
 
 type alias Form =
     { phonologyText : String
+    , glossText : String
+    , currentUserInput : Maybe String
     }
 
 
@@ -86,7 +91,11 @@ type Msg
 update msg model =
     case Debug.log "msg" msg of
         Update new ->
-            new
+            case new.currentUserInput of
+                Just userInput -> { new | phonologyText = model.phonologyText ++ userInput, glossText = showPhonet (analyzeIPA userInput)
+                                          , currentUserInput = Nothing}
+                Nothing        -> new
+            
 
 
 typingButtonVoiced model theText =
@@ -104,7 +113,7 @@ typingButtonVoiced model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
 
@@ -124,7 +133,7 @@ typingButtonVoiceless model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
 
@@ -143,7 +152,7 @@ typingButtonRoundedVowel model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
 
@@ -162,7 +171,7 @@ typingButtonVowel model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        { onPress = Just (Update { model |  currentUserInput = Just theText })
         , label = Element.text theText
         }
 
@@ -176,7 +185,7 @@ typingButton model theText =
         , width (px 50)
         , Font.center
         ]
-        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
 emptyButtonSpace =  
@@ -229,7 +238,7 @@ view model =
                 { text = model.phonologyText
                 , placeholder = Just (Input.placeholder [] (text ""))
                 , onChange = \new -> Update { model | phonologyText = new }
-                , label = Input.labelBelow [ Font.size 14 ] (text "Press buttons below to write text here.")
+                , label = Input.labelBelow [ Font.size 14 ] (text model.glossText)
                 , spellcheck = False
                 }
             , el
