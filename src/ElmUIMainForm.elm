@@ -253,9 +253,9 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , subKeyboardHeading "Consonants (Pulmonic)"
             , Element.column [ width (px 1500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ (createRowOfIPATable model plosivePulmonic           )
+                [ subKeyboardHeading "Consonants (Pulmonic)"
+                , (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
                 , (createRowOfIPATable model trillPulmonic             )              
                 , (createRowOfIPATable model tapOrFlapPulmonic         )          
@@ -264,9 +264,9 @@ view model =
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
                 ]
-            , subKeyboardHeading "Vowels"
             , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ (createRowOfVowels model closeVowels    )
+                [ subKeyboardHeading "Vowels"
+                , (createRowOfVowels model closeVowels    )
                 , (createRowOfVowels model nearCloseVowels)
                 , (createRowOfVowels model closeMidVowels )
                 , (createRowOfVowels model midVowels      )
