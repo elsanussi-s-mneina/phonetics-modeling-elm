@@ -220,7 +220,13 @@ createRowOfVowels model listOfChars =
                       False -> typingButtonVowel model (String.fromChar x)
     in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
 
-
+subKeyboardHeading userFacingText = 
+    el
+        [ Region.heading 2
+        , alignLeft
+        , Font.size 30
+        ]
+        (text userFacingText)
 
 view model =
     Element.layout
@@ -247,13 +253,7 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , el
-                [ Region.heading 2
-                , alignLeft
-                , Font.size 30
-                ]
-                (text "Consonants (Pulmonic)")
-
+            , subKeyboardHeading "Consonants (Pulmonic)"
             , Element.column [ width (px 1500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
@@ -264,12 +264,7 @@ view model =
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
                 ]
-            , el
-                [ Region.heading 2
-                , alignLeft
-                , Font.size 30
-                ]
-                (text "Vowels")
+            , subKeyboardHeading "Vowels"
             , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ (createRowOfVowels model closeVowels    )
                 , (createRowOfVowels model nearCloseVowels)
