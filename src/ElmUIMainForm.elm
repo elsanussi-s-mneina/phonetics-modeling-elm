@@ -20,13 +20,18 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , lateralFricativePulmonic  
                , approximantPulmonic       
                , lateralApproximantPulmonic
+               , consonantsNonPulmonic
                , closeVowels    
                , nearCloseVowels
                , closeMidVowels 
                , midVowels      
                , openMidVowels  
                , nearOpenVowels 
-               , openVowels     
+               , openVowels  
+               , otherSymbols
+               , suprasegmentals
+               , diacriticsAndSuprasegmentals
+               , toneAndWordAccents
                )
 
 white =
@@ -220,6 +225,13 @@ createRowOfVowels model listOfChars =
                       False -> typingButtonVowel model x
     in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
 
+createRowOfKeys model listOfChars =
+    let typingButtonOrSpace aChar =
+           case aChar of
+             " " -> emptyButtonSpace
+             x   -> typingButton model x
+    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
+
 subKeyboardHeading userFacingText = 
     el
         [ Region.heading 2
@@ -253,7 +265,7 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.column [ width (px 1500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
                 , (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
@@ -263,6 +275,10 @@ view model =
                 , (createRowOfIPATable model lateralFricativePulmonic  )   
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
+                ]
+            , Element.column [height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ subKeyboardHeading "Consonants (Non-Pulmonic)"
+                , createRowOfKeys model consonantsNonPulmonic
                 ]
             , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Vowels"
@@ -274,4 +290,21 @@ view model =
                 , (createRowOfVowels model nearOpenVowels )
                 , (createRowOfVowels model openVowels     )
                 ]
+            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ subKeyboardHeading "Other Symbols"
+                , createRowOfKeys model otherSymbols
+                ]
+            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ subKeyboardHeading "Suprasegmentals"
+                , createRowOfKeys model suprasegmentals
+                ]
+            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ subKeyboardHeading "Diacritics"
+                , createRowOfKeys model diacriticsAndSuprasegmentals
+                ]
+            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                [ subKeyboardHeading "Tones and Word Accents"
+                , createRowOfKeys model toneAndWordAccents
+                ]
             ]
+
