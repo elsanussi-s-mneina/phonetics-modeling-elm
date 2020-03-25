@@ -51,14 +51,15 @@ approximantPulmonic        = [ ' ', ' ', ' ', 'ʋ', ' ', ' ', ' ', 'ɹ', ' ', ' 
 lateralApproximantPulmonic = [ ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'l', ' ', ' ', ' ', 'ɭ', ' ', 'ʎ', ' ', 'ʟ', ' ', ' ', ' ', ' ', ' ', ' '] -- Lateral approximant
 
 
-closeVowels     =  ['i', 'y',   'ɨ', 'ʉ',   'ɯ', 'u']   -- Close
-nearCloseVowels =  ['ɪ', 'ʏ',            'ʊ']
-closeMidVowels  =  ['e', 'ø',   'ɘ', 'ɵ',   'ɤ', 'o']   -- Close-mid
-midVowels       =                ['ə']
+closeVowels     =  ['i', 'y', ' ', ' ',  'ɨ', 'ʉ',   'ɯ', 'u']   -- Close
+nearCloseVowels =  [' ', 'ɪ', 'ʏ', ' ', ' ',  'ʊ', ' ']
+closeMidVowels  =  ['e', 'ø',' ',   'ɘ', 'ɵ',   'ɤ', 'o']   -- Close-mid
+midVowels       =  [' ', ' ', ' ', 'ə', ' ' , ' ']
 openMidVowels   =  [ 'ɛ', 'œ',   'ɜ', 'ɞ',   'ʌ', 'ɔ']  -- Open-mid
-nearOpenVowels  =  [ 'æ',           'ɐ'              ]
-openVowels      =  [ 'a', 'ɶ',              'ɑ', 'ɒ' ]  -- Open
+nearOpenVowels  =  [ 'æ',  ' ', 'ɐ', ' ', ' ' ]
+openVowels      =  [ 'a', 'ɶ', ' ', 'ɑ', 'ɒ' ]  -- Open
 
+roundedVowels = ['y', 'ʉ', 'u', 'ʏ',            'ʊ', 'ø', 'ɵ', 'o', 'œ', 'ɞ', 'ɔ',  'ɶ', 'ɒ']
 
 main =
     Browser.sandbox
@@ -127,11 +128,48 @@ typingButtonVoiceless model theText =
         , label = Element.text theText
         }
 
+typingButtonRoundedVowel model theText =
+    Input.button
+        [ Background.color grey
+        , Font.color charcoal
+        , Border.color darkBlue
+        , padding 10
+        , Border.roundEach 
+            { topLeft     = 50
+            , topRight    = 50
+            , bottomLeft  = 50
+            , bottomRight = 50
+            }
+        , width (px 50)
+        , Font.center
+        ]
+        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        , label = Element.text theText
+        }
+
+typingButtonVowel model theText = 
+    Input.button
+        [ Background.color grey
+        , Font.color charcoal
+        , Border.color darkBlue
+        , padding 10
+        , Border.roundEach 
+            { topLeft     = 0
+            , topRight    = 20
+            , bottomLeft  = 0
+            , bottomRight = 20
+            }
+        , width (px 50)
+        , Font.center
+        ]
+        { onPress = Just (Update { model | phonologyText = model.phonologyText ++ theText })
+        , label = Element.text theText
+        }
 
 typingButton model theText = 
     Input.button
-        [ Background.color blue
-        , Font.color white
+        [ Background.color grey
+        , Font.color charcoal
         , Border.color darkBlue
         , padding 10
         , Border.rounded 4 
@@ -163,6 +201,16 @@ createRowOfIPATable model listOfChars =
                       True -> typingButtonVoiced model (String.fromChar x)
                       False -> typingButtonVoiceless model (String.fromChar x)
     in  Element.row [spacing 10] (List.map2 typingButtonOrSpace listOfChars voicedMask)
+
+createRowOfVowels model listOfChars =
+    let typingButtonOrSpace aChar =
+           case aChar of
+             ' ' -> emptyButtonSpace
+             x   -> case (List.member aChar roundedVowels) of
+                      True -> typingButtonRoundedVowel model (String.fromChar x)
+                      False -> typingButtonVowel model (String.fromChar x)
+    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
+
 
 
 view model =
@@ -208,12 +256,12 @@ view model =
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
                 ]
             , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ (createRowOfIPATable model closeVowels    )
-                , (createRowOfIPATable model nearCloseVowels)
-                , (createRowOfIPATable model closeMidVowels )
-                , (createRowOfIPATable model midVowels      )
-                , (createRowOfIPATable model openMidVowels  )
-                , (createRowOfIPATable model nearOpenVowels )
-                , (createRowOfIPATable model openVowels     )
+                [ (createRowOfVowels model closeVowels    )
+                , (createRowOfVowels model nearCloseVowels)
+                , (createRowOfVowels model closeMidVowels )
+                , (createRowOfVowels model midVowels      )
+                , (createRowOfVowels model openMidVowels  )
+                , (createRowOfVowels model nearOpenVowels )
+                , (createRowOfVowels model openVowels     )
                 ]
             ]
