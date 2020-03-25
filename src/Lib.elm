@@ -1,5 +1,7 @@
 module Lib exposing (Phonet(..), englishDescription, VocalFolds(..),
-  Place(..), Manner(..), Airstream(..))
+  Place(..), Manner(..), Airstream(..), PhonetInventory, Rounding(..), Height(..), Backness(..),
+  spirantizedPhonet, devoicedPhonet, voicedPhonet, interVocalic, retractedPlace,
+  showPhonet)
 
 
 
@@ -83,7 +85,6 @@ showVocalFolds vocalFolds =
 
 vocalFoldStates : List VocalFolds
 vocalFoldStates = [Voiceless, Voiced, VoicedAspirated, VoicelessAspirated, CreakyVoiced]
-
 
 type Rounding = Rounded
               | Unrounded
@@ -234,10 +235,10 @@ airstreamStates = [ PulmonicEgressive
                   , Implosive
                   ]
 
-type PhonetInventory = PhonetInventory (List Phonet)
+type alias PhonetInventory = (List Phonet)
 
 
-showPhonetInventory (PhonetInventory phonetes) = String.concat (List.map englishDescription phonetes)
+showPhonetInventory (phonetes) = String.concat (List.map englishDescription phonetes)
 
 
 englishDescription : Phonet -> String
