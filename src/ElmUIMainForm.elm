@@ -264,6 +264,12 @@ view model =
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
                 ]
+            , el
+                [ Region.heading 2
+                , alignLeft
+                , Font.size 30
+                ]
+                (text "Vowels")
             , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ (createRowOfVowels model closeVowels    )
                 , (createRowOfVowels model nearCloseVowels)
