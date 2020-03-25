@@ -32,6 +32,11 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , suprasegmentals
                , diacriticsAndSuprasegmentals
                , toneAndWordAccents
+               , consonantsNonPulmonicRow1
+               , consonantsNonPulmonicRow2
+               , consonantsNonPulmonicRow3
+               , consonantsNonPulmonicRow4
+               , consonantsNonPulmonicRow5
                )
 
 white =
@@ -232,6 +237,17 @@ createRowOfKeys model listOfChars =
              x   -> typingButton model x
     in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
 
+createColumnOfKeys subHeadingText model listOfChars =
+    let typingButtonOrSpace aChar =
+           case aChar of
+             " " -> emptyButtonSpace
+             x   -> typingButton model x
+    in Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+        ( [ subKeyboardHeading subHeadingText
+          ] 
+          ++ ( List.map typingButtonOrSpace listOfChars)
+        )
+
 subKeyboardHeading userFacingText = 
     el
         [ Region.heading 2
@@ -265,7 +281,7 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+            , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
                 , (createRowOfIPATable model plosivePulmonic           )
                 , (createRowOfIPATable model nasalPulmonic             )              
@@ -276,35 +292,39 @@ view model =
                 , (createRowOfIPATable model approximantPulmonic       )        
                 , (createRowOfIPATable model lateralApproximantPulmonic) 
                 ]
-            , Element.column [height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Consonants (Non-Pulmonic)"
-                , createRowOfKeys model consonantsNonPulmonic
+            , Element.row []
+              [
+                Element.column []
+                [
+                    Element.column [height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                        [ subKeyboardHeading "Consonants (Non-Pulmonic)"
+                        , createRowOfKeys model consonantsNonPulmonicRow1
+                        , createRowOfKeys model consonantsNonPulmonicRow2
+                        , createRowOfKeys model consonantsNonPulmonicRow3
+                        , createRowOfKeys model consonantsNonPulmonicRow4
+                        , createRowOfKeys model consonantsNonPulmonicRow5
+                        ]
+                    , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                        [ subKeyboardHeading "Other Symbols"
+                        , createRowOfKeys model otherSymbols
+                        ]
                 ]
-            , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Vowels"
-                , (createRowOfVowels model closeVowels    )
-                , (createRowOfVowels model nearCloseVowels)
-                , (createRowOfVowels model closeMidVowels )
-                , (createRowOfVowels model midVowels      )
-                , (createRowOfVowels model openMidVowels  )
-                , (createRowOfVowels model nearOpenVowels )
-                , (createRowOfVowels model openVowels     )
+                , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                    [ subKeyboardHeading "Vowels"
+                    , (createRowOfVowels model closeVowels    )
+                    , (createRowOfVowels model nearCloseVowels)
+                    , (createRowOfVowels model closeMidVowels )
+                    , (createRowOfVowels model midVowels      )
+                    , (createRowOfVowels model openMidVowels  )
+                    , (createRowOfVowels model nearOpenVowels )
+                    , (createRowOfVowels model openVowels     )
+                    ]
+              ]
+            , Element.row []
+                [ createColumnOfKeys "Diacritics" model diacriticsAndSuprasegmentals
+                , createColumnOfKeys "Suprasegmentals" model suprasegmentals
+                , createColumnOfKeys "Tones and Word Accents" model toneAndWordAccents
                 ]
-            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Other Symbols"
-                , createRowOfKeys model otherSymbols
-                ]
-            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Suprasegmentals"
-                , createRowOfKeys model suprasegmentals
-                ]
-            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Diacritics"
-                , createRowOfKeys model diacriticsAndSuprasegmentals
-                ]
-            , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                [ subKeyboardHeading "Tones and Word Accents"
-                , createRowOfKeys model toneAndWordAccents
-                ]
+    
             ]
 

@@ -160,15 +160,20 @@ consonantsPulmonicTable =
  , lateralApproximantPulmonic
  ]
 
+                            -- Clicks   Voiced implosives
+consonantsNonPulmonicRow1 = ["ʘ",     "ɓ" {- Bilabial         -}            ]
+consonantsNonPulmonicRow2 = ["ǀ", {- Dental -}    "ɗ" {- Dental/alveolar -} ]
+consonantsNonPulmonicRow3 = ["ǃ", {-  (Post)alveolar -}  "ʄ"                ]
+consonantsNonPulmonicRow4 = ["ǂ",  "ɠ"                                      ]
+consonantsNonPulmonicRow5 = ["ǁ",  "ʛ"                                      ]
 consonantsNonPulmonic : List String
-consonantsNonPulmonic =
--- Clicks   Voiced implosives
- [ "ʘ",     "ɓ" -- Bilabial
- , "ǀ", {- Dental -}    "ɗ" -- Dental/alveolar
- , "ǃ", {-  (Post)alveolar -}  "ʄ"
- , "ǂ",  "ɠ"
- , "ǁ",  "ʛ"
- ] 
+consonantsNonPulmonic
+  =  consonantsNonPulmonicRow1
+  ++ consonantsNonPulmonicRow2
+  ++ consonantsNonPulmonicRow3
+  ++ consonantsNonPulmonicRow4
+  ++ consonantsNonPulmonicRow5
+
 
 otherSymbols : List String
 otherSymbols =
