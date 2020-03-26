@@ -1,4 +1,4 @@
-module ElmUIMainForm exposing (main)
+module Main exposing (main)
 
 import Browser
 import Element exposing (Element, Color, 
