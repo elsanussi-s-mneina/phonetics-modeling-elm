@@ -308,7 +308,7 @@ unmarkDifferences p1 p2 =
           backness3 = if backness1 == backness2 then backness1 else UnmarkedBackness
           rounding3 = if rounding1 == rounding2 then rounding1 else UnmarkedRounding
       in Vowel height3 backness3 rounding3 voice3
-    ((Vowel height1 backness1 rounding1 voice1), (Consonant voice2 place2 manner2 airstream2)) ->
+    ((Vowel _ _ _ voice1), (Consonant voice2 _ _ _)) ->
       let voice3 = if voice1 == voice2 then voice1 else UnmarkedVocalFolds
       in Vowel UnmarkedHeight UnmarkedBackness UnmarkedRounding voice3
     (((Consonant _ _ _ _) as c), ((Vowel _ _ _ _) as v)) ->
