@@ -113,7 +113,8 @@ type Msg
 
 update : Msg -> Model -> Model
 update msg model =
-    case Debug.log "msg" msg of
+--    case Debug.log "msg" msg of -- Uncomment left side of this line for debugging
+      case msg of
         Update new ->
             case new.currentUserInput of
                 Just userInput -> { new | phonologyText = model.phonologyText ++ userInput, glossText = showPhonet (analyzeIPA userInput)
