@@ -216,18 +216,20 @@ createRowOfIPATable model listOfChars =
     let typingButtonOrSpace aChar voiced = 
            case aChar of
              " " -> emptyButtonSpace
-             x   -> case voiced of
-                      True -> typingButtonVoiced model x
-                      False -> typingButtonVoiceless model x
+             x   -> 
+                if voiced
+                    then typingButtonVoiced model x
+                    else typingButtonVoiceless model x
     in  Element.row [spacing 10] (List.map2 typingButtonOrSpace listOfChars voicedMask)
 
 createRowOfVowels model listOfChars =
     let typingButtonOrSpace aChar =
            case aChar of
              " " -> emptyButtonSpace
-             x   -> case (List.member aChar roundedVowels) of
-                      True -> typingButtonRoundedVowel model x
-                      False -> typingButtonVowel model x
+             x   -> 
+                if List.member aChar roundedVowels
+                    then typingButtonRoundedVowel model x
+                    else typingButtonVowel model x
     in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
 
 createRowOfKeys model listOfChars =
