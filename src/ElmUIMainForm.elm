@@ -9,7 +9,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Html
+import Html exposing (Html)
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
                ( analyzeIPA
@@ -55,18 +55,6 @@ darkGrey =
 charcoal : Color
 charcoal =
     Element.rgb 0.1 0.1 0.1
-
-
-blue : Color
-blue =
-    Element.rgb 0 0 0.8
-
-
-red : Color
-red =
-    Element.rgb 0.8 0 0
-
-
 
 darkBlue : Color
 darkBlue =
@@ -283,7 +271,7 @@ subKeyboardHeading userFacingText =
         ]
         (text userFacingText)
 
-view : Model -> Html.Html Msg
+view : Model -> Html Msg
 view model =
     Element.layout
         [ Font.size 20
