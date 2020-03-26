@@ -9,6 +9,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
+import Html exposing (Html)
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
                ( analyzeIPA
@@ -38,39 +39,52 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , consonantsNonPulmonicRow5
                )
 
+white : Color
 white =
     Element.rgb 1 1 1
 
 
+grey : Color
 grey =
     Element.rgb 0.9 0.9 0.9
 
+darkGrey : Color
 darkGrey =
     Element.rgb 0.2 0.2 0.2
 
+charcoal : Color
 charcoal =
     Element.rgb 0.1 0.1 0.1
 
 
+blue : Color
 blue =
     Element.rgb 0 0 0.8
 
 
+red : Color
 red =
     Element.rgb 0.8 0 0
 
 
+
+darkBlue : Color
 darkBlue =
     Element.rgb 0 0 0.9
 
 
+isEven : Int -> Bool
 isEven x = modBy 2 x == 0
 
+voicedMask : List Bool
 voicedMask = List.map isEven (List.range 1 (List.length plosivePulmonic))
 
 
+roundedVowels : List String
 roundedVowels = ["y", "ʉ", "u", "ʏ",            "ʊ", "ø", "ɵ", "o", "œ", "ɞ", "ɔ",  "ɶ", "ɒ"]
 
+
+main : Program () Model  Msg
 main =
     Browser.sandbox
         { init = init
@@ -79,6 +93,7 @@ main =
         }
 
 
+init : Model
 init =
     { phonologyText = ""
     , glossText = "Press buttons below to write text here."  -- This should contain what we call the phonemes in English
@@ -86,7 +101,7 @@ init =
     }
 
 
-type alias Form =
+type alias Model =
     { phonologyText : String
     , glossText : String
     , currentUserInput : Maybe String
@@ -94,9 +109,9 @@ type alias Form =
 
 
 type Msg
-    = Update Form
+    = Update Model
 
-
+update : Msg -> Model -> Model
 update msg model =
     case Debug.log "msg" msg of
         Update new ->
@@ -107,6 +122,7 @@ update msg model =
             
 
 
+typingButtonVoiced : Model -> String -> Element Msg
 typingButtonVoiced model theText =
     Input.button
         [ Background.color grey
@@ -127,7 +143,8 @@ typingButtonVoiced model theText =
         }
 
 
-typingButtonVoiceless model theText = 
+typingButtonVoiceless : Model -> String -> Element Msg 
+typingButtonVoiceless model theText =
     Input.button
         [ Background.color grey
         , Font.color darkGrey
@@ -146,6 +163,7 @@ typingButtonVoiceless model theText =
         , label = Element.text theText
         }
 
+typingButtonRoundedVowel : Model -> String -> Element Msg
 typingButtonRoundedVowel model theText =
     Input.button
         [ Background.color grey
@@ -165,6 +183,7 @@ typingButtonRoundedVowel model theText =
         , label = Element.text theText
         }
 
+typingButtonVowel : Model -> String -> Element Msg 
 typingButtonVowel model theText = 
     Input.button
         [ Background.color grey
@@ -184,6 +203,7 @@ typingButtonVowel model theText =
         , label = Element.text theText
         }
 
+typingButton : Model -> String -> Element Msg
 typingButton model theText = 
     Input.button
         [ Background.color grey
@@ -197,6 +217,7 @@ typingButton model theText =
         { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
+emptyButtonSpace : Element Msg  
 emptyButtonSpace =  
     Input.button
         [ Background.color grey
@@ -211,7 +232,8 @@ emptyButtonSpace =
         }
 
 
-createRowOfIPATable model listOfChars =
+createRowOfIPATable : Model -> List String -> Element Msg
+createRowOfIPATable model graphemes =
     let typingButtonOrSpace aChar voiced = 
            case aChar of
              " " -> emptyButtonSpace
@@ -219,9 +241,10 @@ createRowOfIPATable model listOfChars =
                 if voiced
                     then typingButtonVoiced model x
                     else typingButtonVoiceless model x
-    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace listOfChars voicedMask)
+    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace graphemes voicedMask)
 
-createRowOfVowels model listOfChars =
+createRowOfVowels : Model -> List String -> Element Msg
+createRowOfVowels model graphemes =
     let typingButtonOrSpace aChar =
            case aChar of
              " " -> emptyButtonSpace
@@ -229,16 +252,18 @@ createRowOfVowels model listOfChars =
                 if List.member aChar roundedVowels
                     then typingButtonRoundedVowel model x
                     else typingButtonVowel model x
-    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
+    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace graphemes)
 
-createRowOfKeys model listOfChars =
+createRowOfKeys : Model -> List String -> Element Msg
+createRowOfKeys model graphemes =
     let typingButtonOrSpace aChar =
            case aChar of
              " " -> emptyButtonSpace
              x   -> typingButton model x
-    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace listOfChars)
+    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace graphemes)
 
-createColumnOfKeys subHeadingText model listOfChars =
+createColumnOfKeys : String -> Model -> List String -> Element Msg
+createColumnOfKeys subHeadingText model graphemes =
     let typingButtonOrSpace aChar =
            case aChar of
              " " -> emptyButtonSpace
@@ -246,9 +271,10 @@ createColumnOfKeys subHeadingText model listOfChars =
     in Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
         ( [ subKeyboardHeading subHeadingText
           ] 
-          ++ ( List.map typingButtonOrSpace listOfChars)
+          ++ ( List.map typingButtonOrSpace graphemes)
         )
 
+subKeyboardHeading : String -> Element Msg
 subKeyboardHeading userFacingText = 
     el
         [ Region.heading 2
@@ -257,6 +283,7 @@ subKeyboardHeading userFacingText =
         ]
         (text userFacingText)
 
+view : Model -> Html.Html Msg
 view model =
     Element.layout
         [ Font.size 20
