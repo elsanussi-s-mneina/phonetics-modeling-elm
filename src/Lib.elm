@@ -32,6 +32,7 @@ type Backness = Front
               | Central
               | Back
               | UnmarkedBackness
+showBackness : Backness -> String
 showBackness backness =
   case backness of
     Front            -> "front"
@@ -51,6 +52,7 @@ type Height = Close
             | Open
             | UnmarkedHeight
 
+showHeight : Height -> String
 showHeight height =
   case height of 
      Close          -> "close"
@@ -74,6 +76,7 @@ heightStates =
              ]
 
 
+showVocalFolds : VocalFolds -> String
 showVocalFolds vocalFolds =
   case vocalFolds of
     Voiced             -> "voiced"
@@ -89,6 +92,7 @@ vocalFoldStates = [Voiceless, Voiced, VoicedAspirated, VoicelessAspirated, Creak
 type Rounding = Rounded
               | Unrounded
               | UnmarkedRounding
+showRounding : Rounding -> String
 showRounding rounding =
   case rounding of
      Rounded             -> "rounded"
@@ -119,6 +123,7 @@ type Place = Bilabial
            -- is between alveolopalatal, and palatoalveolar
            | UnmarkedPlace
 
+showPlace : Place -> String
 showPlace place =
   case place of 
     Bilabial       -> "bilabial"
@@ -188,6 +193,7 @@ type Manner = Plosive
             | Lateral -- we need this one for the lateral click.
             | UnmarkedManner -- There are very few IPA symbols for lateral flaps
 
+showManner : Manner -> String
 showManner manner =
   case manner of
     Plosive            -> "plosive"
@@ -222,6 +228,7 @@ type Airstream = PulmonicEgressive
                | Implosive
                | UnmarkedAirstream
 
+showAirstream : Airstream -> String
 showAirstream airstream =
   case airstream of
     PulmonicEgressive -> "pulmonic egressive"
@@ -229,7 +236,7 @@ showAirstream airstream =
     Click             -> "click"
     UnmarkedAirstream -> ""
 
-airstreamStates :List Airstream
+airstreamStates : List Airstream
 airstreamStates = [ PulmonicEgressive
                   , Click
                   , Implosive
@@ -238,6 +245,7 @@ airstreamStates = [ PulmonicEgressive
 type alias PhonetInventory = (List Phonet)
 
 
+showPhonetInventory : PhonetInventory -> String
 showPhonetInventory (phonetes) = String.concat (List.map englishDescription phonetes)
 
 
