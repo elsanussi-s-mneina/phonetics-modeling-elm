@@ -361,14 +361,3 @@ impossible phonet =
     (Consonant _               LabioDental LateralApproximant PulmonicEgressive) -> True
     _                                                                            -> False -- Everything else is assumed t be possible.
 
--- | Whether a phonet is in an intervocalic environment.
--- | This means that there is a vowel directly before it,
--- | and one after it.
-interVocalic : Phonet  -- Before
-             -> Phonet  -- After
-             -> Bool
-interVocalic p1 p2 =
-  case (p1, p2) of
-    ((Vowel _ _ _ _), (Vowel _ _ _ _)) -> True
-    (_              , _              ) -> False
-
