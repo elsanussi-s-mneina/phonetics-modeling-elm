@@ -269,9 +269,8 @@ createColumnOfKeys subHeadingText model graphemes =
              " " -> emptyButtonSpace
              x   -> typingButton model x
     in Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-        ( [ subKeyboardHeading subHeadingText
-          ] 
-          ++ ( List.map typingButtonOrSpace graphemes)
+        (  subKeyboardHeading subHeadingText
+           :: List.map typingButtonOrSpace graphemes
         )
 
 subKeyboardHeading : String -> Element Msg
