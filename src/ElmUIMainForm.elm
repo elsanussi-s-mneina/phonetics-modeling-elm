@@ -20,7 +20,6 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , lateralFricativePulmonic  
                , approximantPulmonic       
                , lateralApproximantPulmonic
-               , consonantsNonPulmonic
                , closeVowels    
                , nearCloseVowels
                , closeMidVowels 
