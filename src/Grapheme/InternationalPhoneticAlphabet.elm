@@ -1,4 +1,8 @@
-module Grapheme.InternationalPhoneticAlphabet exposing (..)
+module Grapheme.InternationalPhoneticAlphabet exposing (analyzeIPA, constructIPA,
+   plosivePulmonic, nasalPulmonic, trillPulmonic, tapOrFlapPulmonic, fricativePulmonic, lateralFricativePulmonic,
+   approximantPulmonic, lateralApproximantPulmonic, closeVowels, nearCloseVowels, closeMidVowels, midVowels, openMidVowels, nearOpenVowels, openVowels, otherSymbols, suprasegmentals, diacriticsAndSuprasegmentals,
+   toneAndWordAccents, consonantsNonPulmonicRow1, consonantsNonPulmonicRow2, consonantsNonPulmonicRow3,
+   consonantsNonPulmonicRow4, consonantsNonPulmonicRow5)
 
 import Lib exposing (PhonetInventory, Manner(..), Place(..), Phonet(..), VocalFolds(..), Airstream(..),
                      Rounding(..), Backness(..), Height(..), 
