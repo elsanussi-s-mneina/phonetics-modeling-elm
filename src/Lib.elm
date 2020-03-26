@@ -1,6 +1,6 @@
 module Lib exposing (Phonet(..), englishDescription, VocalFolds(..),
   Place(..), Manner(..), Airstream(..), PhonetInventory, Rounding(..), Height(..), Backness(..),
-  spirantizedPhonet, devoicedPhonet, voicedPhonet, interVocalic, retractedPlace,
+  spirantizedPhonet, devoicedPhonet, voicedPhonet, retractedPlace,
   showPhonet)
 
 
