@@ -283,14 +283,14 @@ view model =
                 (text "International Phonetic Alphabet")
             , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
-                , (createRowOfIPATable model plosivePulmonic           )
-                , (createRowOfIPATable model nasalPulmonic             )              
-                , (createRowOfIPATable model trillPulmonic             )              
-                , (createRowOfIPATable model tapOrFlapPulmonic         )          
-                , (createRowOfIPATable model fricativePulmonic         )          
-                , (createRowOfIPATable model lateralFricativePulmonic  )   
-                , (createRowOfIPATable model approximantPulmonic       )        
-                , (createRowOfIPATable model lateralApproximantPulmonic) 
+                , createRowOfIPATable model plosivePulmonic           
+                , createRowOfIPATable model nasalPulmonic                           
+                , createRowOfIPATable model trillPulmonic                           
+                , createRowOfIPATable model tapOrFlapPulmonic                   
+                , createRowOfIPATable model fricativePulmonic                   
+                , createRowOfIPATable model lateralFricativePulmonic     
+                , createRowOfIPATable model approximantPulmonic               
+                , createRowOfIPATable model lateralApproximantPulmonic 
                 ]
             , Element.row []
               [
@@ -311,13 +311,13 @@ view model =
                 ]
                 , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                     [ subKeyboardHeading "Vowels"
-                    , (createRowOfVowels model closeVowels    )
-                    , (createRowOfVowels model nearCloseVowels)
-                    , (createRowOfVowels model closeMidVowels )
-                    , (createRowOfVowels model midVowels      )
-                    , (createRowOfVowels model openMidVowels  )
-                    , (createRowOfVowels model nearOpenVowels )
-                    , (createRowOfVowels model openVowels     )
+                    ,  createRowOfVowels model closeVowels    
+                    ,  createRowOfVowels model nearCloseVowels
+                    ,  createRowOfVowels model closeMidVowels 
+                    ,  createRowOfVowels model midVowels      
+                    ,  createRowOfVowels model openMidVowels  
+                    ,  createRowOfVowels model nearOpenVowels 
+                    ,  createRowOfVowels model openVowels     
                     ]
               ]
             , Element.row []
