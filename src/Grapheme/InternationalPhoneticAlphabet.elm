@@ -129,22 +129,44 @@ consonantsPulmonic = List.concat consonantsPulmonicTable
 
 
 
+plosivePulmonic           : List String
 plosivePulmonic            = [ "p", "b", " ", " ", " ", " ", "t", "d", " ", " ", "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ", " ", " ", "ʔ", " "] -- Plosive
+
+nasalPulmonic             : List String
 nasalPulmonic              = [ " ", "m", " ", "ɱ", " ", " ", " ", "n", " ", " ", " ", "ɳ", " ", "ɲ", " ", "ŋ", " ", "ɴ", " ", " ", " ", " "] -- Nasal
+
+trillPulmonic             : List String
 trillPulmonic              = [ " ", "ʙ", " ", " ", " ", " ", " ", "r", " ", " ", " ", " ", " ", " ", " ", " ", " ", "ʀ", " ", " ", " ", " "] -- Trill
+
+tapOrFlapPulmonic         : List String
 tapOrFlapPulmonic          = [ " ", " ", " ", "ⱱ", " ", " ", " ", "ɾ", " ", " ", " ", "ɽ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "] -- Tap or Flap
+
+fricativePulmonic         : List String
 fricativePulmonic          = [ "ɸ", "β", "f", "v", "θ", "ð", "s", "z", "ʃ", "ʒ", "ʂ", "ʐ", "ç", "ʝ", "x", "ɣ", "χ", "ʁ", "ħ", "ʕ", "h", "ɦ"]  -- Fricative
+
+lateralFricativePulmonic  : List String
 lateralFricativePulmonic   = [ " ", " ", " ", " ", " ", " ", "ɬ", "ɮ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "] -- Lateral fricative
+
+approximantPulmonic       : List String
 approximantPulmonic        = [ " ", " ", " ", "ʋ", " ", " ", " ", "ɹ", " ", " ", " ", "ɻ", " ", "j", " ", "ɰ", " ", " ", " ", " ", " ", " "] -- Approximant
+
+lateralApproximantPulmonic: List String
 lateralApproximantPulmonic = [ " ", " ", " ", " ", " ", " ", " ", "l", " ", " ", " ", "ɭ", " ", "ʎ", " ", "ʟ", " ", " ", " ", " ", " ", " "] -- Lateral approximant
 
 
+closeVowels     : List String
 closeVowels     =  ["i", "y", " ", " ",  "ɨ", "ʉ",   "ɯ", "u"]   -- Close
+nearCloseVowels : List String
 nearCloseVowels =  [" ", "ɪ", "ʏ", " ", " ",  "ʊ", " "]
+closeMidVowels  : List String
 closeMidVowels  =  ["e", "ø"," ",   "ɘ", "ɵ",   "ɤ", "o"]   -- Close-mid
+midVowels       : List String
 midVowels       =  [" ", " ", " ", "ə", " " , " "]
+openMidVowels   : List String
 openMidVowels   =  [ "ɛ", "œ",   "ɜ", "ɞ",   "ʌ", "ɔ"]  -- Open-mid
+nearOpenVowels  : List String
 nearOpenVowels  =  [ "æ",  " ", "ɐ", " ", " " ]
+openVowels      : List String
 openVowels      =  [ "a", "ɶ", " ", "ɑ", "ɒ" ]  -- Open
 
 
@@ -160,11 +182,17 @@ consonantsPulmonicTable =
  , lateralApproximantPulmonic
  ]
 
+consonantsNonPulmonicRow1 : List String
                             -- Clicks   Voiced implosives
 consonantsNonPulmonicRow1 = ["ʘ",     "ɓ" {- Bilabial         -}            ]
+consonantsNonPulmonicRow2 : List String
 consonantsNonPulmonicRow2 = ["ǀ", {- Dental -}    "ɗ" {- Dental/alveolar -} ]
+consonantsNonPulmonicRow3 : List String
 consonantsNonPulmonicRow3 = ["ǃ", {-  (Post)alveolar -}  "ʄ"                ]
+consonantsNonPulmonicRow4 : List String
 consonantsNonPulmonicRow4 = ["ǂ",  "ɠ"                                      ]
+consonantsNonPulmonicRow5 : List String
+
 consonantsNonPulmonicRow5 = ["ǁ",  "ʛ"                                      ]
 consonantsNonPulmonic : List String
 consonantsNonPulmonic
@@ -273,10 +301,7 @@ showIPA : Phonet -> String
 showIPA phonete = constructIPA phonete
 
 
-
-
-
--- indexOf : (Eq a) => [a] -> Int -> a -> Int
+indexOf : List a -> Int -> a -> Int
 indexOf aList index target = 
   case aList of 
     []              -> -1
@@ -629,6 +654,7 @@ constructIPA2 p =
               -- We are only using it here so that we can ignore values we have not programmed
               -- yet. We just want it to show that we do not have it.
 
+getAtIndex : List a -> Int -> Maybe a
 getAtIndex aList i =
   List.head (List.drop i aList)
 
