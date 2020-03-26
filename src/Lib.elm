@@ -328,7 +328,7 @@ generateFromUnmarked phonet =
           manner3    = if manner    == UnmarkedManner         then mannerStates    else [manner]
           airstream3 = if airstream == UnmarkedAirstream      then airstreamStates else [airstream]
       in 
-        List.concatMap (\a -> (List.concatMap (\m -> (List.concatMap (\p -> (List.map (\v -> Consonant v p m a) (voice3))) place3)) manner3)) airstream3
+        List.concatMap (\a -> List.concatMap (\m -> List.concatMap (\p -> List.map (\v -> Consonant v p m a) voice3) place3) manner3) airstream3
 
     (Vowel height backness rounding voice) ->
       let voice3    = if voice    == UnmarkedVocalFolds then vocalFoldStates else [voice]
