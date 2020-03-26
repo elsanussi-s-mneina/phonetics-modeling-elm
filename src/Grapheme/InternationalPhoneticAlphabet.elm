@@ -2,7 +2,7 @@ module Grapheme.InternationalPhoneticAlphabet exposing (..)
 
 import Lib exposing (PhonetInventory, Manner(..), Place(..), Phonet(..), VocalFolds(..), Airstream(..),
                      Rounding(..), Backness(..), Height(..), 
-                     spirantizedPhonet, devoicedPhonet, voicedPhonet, interVocalic, retractedPlace)
+                     spirantizedPhonet, devoicedPhonet, voicedPhonet)
 
 
 
