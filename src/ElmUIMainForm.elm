@@ -1,15 +1,15 @@
-module ElmUIMainForm exposing (..)
-
-{-| -}
+module ElmUIMainForm exposing (main)
 
 import Browser
-import Element exposing (..)
+import Element exposing (Element, Color, 
+    width, height, px, shrink, centerX, centerY, spacing, padding, text, 
+    el, alignLeft, alignRight, alignTop)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Element.Region as Region
-import Html exposing (Html)
+import Html
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
                ( analyzeIPA
