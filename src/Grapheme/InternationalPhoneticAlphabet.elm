@@ -312,14 +312,14 @@ indexOf aList index target =
 
 analyzeMannerIPA : String -> (Manner, Int)
 analyzeMannerIPA x =
-  if                    List.member x (plosivePulmonic           ) then (Plosive, 0)
-    else if             List.member x (nasalPulmonic             ) then (Nasal, 1)
-      else if           List.member x (trillPulmonic             ) then (Trill, 2)
-        else if         List.member x (tapOrFlapPulmonic         ) then (TapOrFlap, 3)
-          else if       List.member x (fricativePulmonic         ) then (Fricative, 4)
-            else if     List.member x (lateralFricativePulmonic  ) then (LateralFricative, 5)
-              else if   List.member x (approximantPulmonic       ) then (Approximant, 6)
-                else if List.member x (lateralApproximantPulmonic) then (LateralApproximant, 7)
+  if                    List.member x plosivePulmonic            then (Plosive, 0)
+    else if             List.member x nasalPulmonic              then (Nasal, 1)
+      else if           List.member x trillPulmonic              then (Trill, 2)
+        else if         List.member x tapOrFlapPulmonic          then (TapOrFlap, 3)
+          else if       List.member x fricativePulmonic          then (Fricative, 4)
+            else if     List.member x lateralFricativePulmonic   then (LateralFricative, 5)
+              else if   List.member x approximantPulmonic        then (Approximant, 6)
+                else if List.member x lateralApproximantPulmonic then (LateralApproximant, 7)
                   else (LateralApproximant, 7) -- Not right, but will have to work for now. -- TODO: Fix this.
 
 analyzePlaceIPA : Int -> Place
@@ -486,7 +486,7 @@ analyzeIPA p =
                                   -- (About the preceding line:) It is strange but we will just do nothing if they give us an aspirated vowel.
                                   -- since we have no way to represent it in the type system. to do: determine
                                   -- if the idea of an aspirated vowel makes sense
-                        else (Consonant UnmarkedVocalFolds UnmarkedPlace UnmarkedManner UnmarkedAirstream) -- Not recognized.
+                        else Consonant UnmarkedVocalFolds UnmarkedPlace UnmarkedManner UnmarkedAirstream -- Not recognized.
 
 constructIPA : Phonet -> String
 -- Affricates
