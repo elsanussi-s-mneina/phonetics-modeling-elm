@@ -11,39 +11,6 @@ import Lib exposing (PhonetInventory, Manner(..), Place(..), Phonet(..), VocalFo
 
 
 
--- Grammar for combining IPA symbols
--- to express phonemes
---  I will have to do more work on this in order to cover all combinations.
---  I also am unsure what to do with combinations of symbols that lead to contradition
--- like putting a diacritic meaning voiceless with a diacritic meaning voiced.
--- 
--- 
---  types of symbols:
---  diacritics, ascenders, descenders, ascender-descenders, 
--- premodifier, postmodifier
--- diacritics take up no space, but combine with
--- a non-diacritic character
--- 
--- Note: I did not use the '|' symbol with its usual meaning in grammars, it means 'or' usually,
--- but in this case, it would be (visually) indistinguishable from certain IPA
--- symbols, so we don't use it..
-
--- (assume spaces are disjunctions in the right hand side of the following rules)
--- ascender → b t d k ʔ f θ ð ħ ʕ h ɦ ɬ l ʎ ʘ ɓ ǀ ɗ ǃ ǂ ɠ ʄ ǁ ʛ ɺ ʢ ʡ ɤ
--- midheight → c ɢ m n  ɴ ʙ r ʀ ⱱ ɾ v s z x ʁ ʋ ɹ ʟ ʍ ɕ w ʑ ʜ i ɨ ʉ ɯ u ɪ ʏ ʊ e ø ɘ ɵ o ə ɛ œ ɜ ɞ ʌ ɔ æ ɐ a ɶ ɑ ɒ
--- descender → p ɟ g q ɱ ɽ ʒ ʂ ʐ ç ʝ ɣ χ ɻ j ɰ ɥ y ɳ ɲ
--- ascender_descender → ʈ ɖ ɸ β ʃ ɮ ɭ ɧ
--- diacritic_below →  ̥ ̩
--- 
--- diacritic_above →  ̊  ̍  
--- (assume spaces are concatenation on the right hand side of the following rules)
--- composed_character → ascender diacritic_below 
--- composed_character → midheight diacritic_below
--- composed_character → descender diacritic_above
--- End of grammar
--- to do: a lot (fully sketch out the grammar, cover use of tie bars,
--- tone symbols, and aspiration symbols, and more.
---  Then implement it in functions in a programming language.
 
 exponentials : List Char
 exponentials = ['ʰ' , 'ʷ' , 'ʲ' , 'ˠ' , 'ˤ' , 'ⁿ' , 'ˡ']
