@@ -206,60 +206,36 @@ typingButton model theText =
         { onPress = Just (Update { model | currentUserInput = Just theText })
         , label = Element.text theText
         }
-emptyButtonSpace : Element Msg  
-emptyButtonSpace =  
-    Input.button
-        [ Background.color grey
-        , Font.color white
-        , Border.color darkBlue
-        , padding 10
-        , Border.rounded 0
-        , width (px 50)
-        ]
-        { onPress = Nothing
-        , label = Element.text ""
-        }
+
 
 
 createRowOfIPATable : Model -> List String -> Element Msg
 createRowOfIPATable model graphemes =
-    let typingButtonOrSpace aChar voiced = 
-           case aChar of
-             " " -> emptyButtonSpace
-             x   -> 
+    let graphemesWithoutBlanks = List.filter (\x -> x /= " ") graphemes
+        typingButtonOrSpace aChar voiced = 
                 if voiced
-                    then typingButtonVoiced model x
-                    else typingButtonVoiceless model x
-    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace graphemes voicedMask)
+                    then typingButtonVoiced model aChar
+                    else typingButtonVoiceless model aChar
+    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
 
 createRowOfVowels : Model -> List String -> Element Msg
 createRowOfVowels model graphemes =
-    let typingButtonOrSpace aChar =
-           case aChar of
-             " " -> emptyButtonSpace
-             x   -> 
-                if List.member aChar roundedVowels
-                    then typingButtonRoundedVowel model x
-                    else typingButtonVowel model x
-    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace graphemes)
+    Element.row [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemes)
+    
+typingButtonForVowel model aChar = 
+    if List.member aChar roundedVowels
+    then typingButtonRoundedVowel model aChar
+    else typingButtonVowel model aChar
 
 createRowOfKeys : Model -> List String -> Element Msg
 createRowOfKeys model graphemes =
-    let typingButtonOrSpace aChar =
-           case aChar of
-             " " -> emptyButtonSpace
-             x   -> typingButton model x
-    in  Element.row [spacing 10, alignRight] (List.map typingButtonOrSpace graphemes)
+    Element.row [spacing 10, alignRight] (List.map (typingButton model) graphemes)
 
 createColumnOfKeys : String -> Model -> List String -> Element Msg
 createColumnOfKeys subHeadingText model graphemes =
-    let typingButtonOrSpace aChar =
-           case aChar of
-             " " -> emptyButtonSpace
-             x   -> typingButton model x
-    in Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+       Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
         (  subKeyboardHeading subHeadingText
-           :: List.map typingButtonOrSpace graphemes
+           :: List.map (typingButton model) graphemes
         )
 
 subKeyboardHeading : String -> Element Msg
