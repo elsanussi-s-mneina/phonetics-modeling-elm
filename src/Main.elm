@@ -221,11 +221,12 @@ createRowOfIPATable model graphemes =
 createRowOfVowels : Model -> List String -> Element Msg
 createRowOfVowels model graphemes =
     Element.row [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemes)
-    
-typingButtonForVowel model aChar = 
-    if List.member aChar roundedVowels
-    then typingButtonRoundedVowel model aChar
-    else typingButtonVowel model aChar
+
+typingButtonForVowel : Model -> String -> Element Msg  
+typingButtonForVowel model grapheme = 
+    if List.member grapheme roundedVowels
+    then typingButtonRoundedVowel model grapheme
+    else typingButtonVowel model grapheme
 
 createRowOfKeys : Model -> List String -> Element Msg
 createRowOfKeys model graphemes =
