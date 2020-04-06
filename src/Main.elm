@@ -114,86 +114,126 @@ update msg model =
 typingButtonVoiced : Model -> String -> Element Msg
 typingButtonVoiced model theText =
     Input.button
-        [ description (theText ++ " (a voiced consonant)")
-        , Background.color grey
+        [ Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
-        , Border.roundEach 
-            { topLeft     = 0
-            , topRight    = 20
-            , bottomLeft  = 0
-            , bottomRight = 0
-            }
-        , width (px 50)
         , Font.center
         ]
         { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = Element.text theText
+        , label = labelFromGrapheme theText
         }
 
 
 typingButtonVoiceless : Model -> String -> Element Msg 
 typingButtonVoiceless model theText =
     Input.button
-        [ description (theText ++ " (a voiceless consonant)")
-        , Background.color grey
+        [ Background.color grey
         , Font.color darkGrey
         , Border.color darkBlue
         , padding 10
-        , Border.roundEach 
-            { topLeft     = 20
-            , topRight    = 0
-            , bottomLeft  = 0
-            , bottomRight = 0
-            }
-        , width (px 50)
         , Font.center
         ]
         { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = Element.text theText
+        , label = labelFromGrapheme theText
         }
 
 typingButtonRoundedVowel : Model -> String -> Element Msg
 typingButtonRoundedVowel model theText =
     Input.button
-        [ description (theText ++ " (a rounded vowel) ")
-        , Background.color grey
+        [ Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
-        , Border.roundEach 
-            { topLeft     = 50
-            , topRight    = 50
-            , bottomLeft  = 50
-            , bottomRight = 50
-            }
-        , width (px 50)
         , Font.center
         ]
         { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = Element.text theText
+        , label = labelFromGrapheme theText
         }
+
+
+textModeVerbose : Bool
+textModeVerbose = True
+
+labelFromGrapheme : String -> Element Msg
+labelFromGrapheme grapheme =
+    if textModeVerbose
+      then Element.text ( grapheme ++ " " ++ describeIPA grapheme)
+      else Element.text grapheme
+
+describeIPA : String -> String
+describeIPA x =
+  case x of 
+   "ˈ"   -> "Primary stress"
+   "ˌ"   -> "Secondary stress"
+   "ː"   -> "Long"
+   "ˑ"   -> "Half long" 
+   "̆"    -> "Extra short"
+   "|"   -> "Minor (foot) group" 
+   "‖"   -> "Major (intonation) group"
+   "."   -> "Syllable break"
+   "‿"   -> "Linking (absence of a break)"
+   "˥"   -> "Extra high"
+   "̋"    -> "Extra high (2)"
+   "˦"  -> "High"
+   "́"  -> "High (2)"
+   "˧"  -> "Mid"
+   "̄"  -> "Mid (2)"
+   "˨"  -> "Low"
+   "̀"  -> "Low (2)"
+   "˩"  -> "Extra low"
+   "̏"  -> "Extra low (2)"
+   "ꜜ"  -> "Downstep"
+   "ꜛ"  -> "Upstep"
+
+   {- Countour -}
+   "̌" -> "Rising"
+   "̂" -> "Falling"
+   "᷄" -> "High rising"
+   "᷅" -> "Low rising"
+   "᷈" -> "Rising-falling"
+   "↗" -> "Global rise"
+   "↘" -> "Global fall"
+   "ʰ"  -> "Aspirated"
+   "ʷ"  -> "Labialised"
+   "ʲ"  -> "Palatalised"
+   "ˠ"  -> "Velarised"
+   "ˤ"  -> "Pharyngealised"
+   "ⁿ"  -> "Pre/post nasalised"
+   "ˡ"  -> "Lateral release"
+   "˞"  -> "Rhoticity"
+   "ʼ"  -> "Ejective"
+   "̚"   -> "No audible release"
+   "̩"   -> "Syllabic"
+   "̯"   -> "Non-syllabic"
+   "̰"   -> "Creaky voiced"
+   "̥"   -> "Voiceless"
+   "̬"   -> "Voiced"
+   "̤"   -> "Breathy voiced"
+   "̊"   -> "Voiceless (diacritic placed above symbol with descender)"
+   "̍"   -> "Syllabic (diacritic placed above)"
+   "̪"   -> "Dental"
+   "̺"   -> "Apical"
+   "̻"   -> "Laminal"
+   "̼"   -> "Linguolabial"
+   "̣"   -> "Closer variety/Fricative"
+   "̃"   -> "Nasalised"
+   "̈"   -> "Centralised"
+   "̽"   -> "Mid centralised"
+   "̇"   -> "Palatalization/Centralization"
+   _     -> showPhonet (analyzeIPA x)
 
 typingButtonVowel : Model -> String -> Element Msg 
 typingButtonVowel model theText = 
     Input.button
-        [ description (theText ++ " ( a vowel )")
-        , Background.color grey
+        [ Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
-        , Border.roundEach 
-            { topLeft     = 0
-            , topRight    = 20
-            , bottomLeft  = 0
-            , bottomRight = 20
-            }
-        , width (px 50)
         , Font.center
         ]
         { onPress = Just (Update { model |  currentUserInput = Just theText })
-        , label = Element.text theText
+        , label = labelFromGrapheme theText
         }
 
 typingButton : Model -> String -> Element Msg
@@ -203,12 +243,10 @@ typingButton model theText =
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
-        , Border.rounded 4 
-        , width (px 50)
         , Font.center
         ]
         { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = Element.text theText
+        , label = labelFromGrapheme theText
         }
 
 noBlank : List String -> List String
@@ -227,7 +265,7 @@ createRowOfIPATable model graphemes heading =
 createRowOfVowels : Model -> List String -> String -> Element Msg
 createRowOfVowels model graphemes heading =
     let graphemesWithoutBlanks = noBlank graphemes
-    in Element.wrappedRow [spacing 10, alignRight] 
+    in Element.wrappedRow [spacing 10] 
        (subsubKeyboardHeading heading :: List.map (typingButtonForVowel model) graphemesWithoutBlanks)
 
 typingButtonForVowel : Model -> String -> Element Msg  
@@ -273,8 +311,7 @@ view model =
     <|
         Element.column [ height shrink, centerY, centerX, spacing 36, padding 10]
             [ Input.multiline
-                [ announce
-                , height shrink
+                [ height shrink
                 , height (px 200)
                 , spacing 12
                 , padding 10
