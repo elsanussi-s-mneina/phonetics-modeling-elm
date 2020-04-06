@@ -27,7 +27,7 @@ consonantsPulmonic : List String
 consonantsPulmonic = List.concat consonantsPulmonicTable
 
 
-
+-- Pulmonic consonants by manner of articulation
 plosivePulmonic           : List String
 plosivePulmonic            = [ "p", "b", " ", " ", " ", " ", "t", "d", " ", " ", "ʈ", "ɖ", "c", "ɟ", "k", "g", "q", "ɢ", " ", " ", "ʔ", " "] -- Plosive
 
@@ -51,6 +51,12 @@ approximantPulmonic        = [ " ", " ", " ", "ʋ", " ", " ", " ", "ɹ", " ", " 
 
 lateralApproximantPulmonic: List String
 lateralApproximantPulmonic = [ " ", " ", " ", " ", " ", " ", " ", "l", " ", " ", " ", "ɭ", " ", "ʎ", " ", "ʟ", " ", " ", " ", " ", " ", " "] -- Lateral approximant
+
+
+-- Pulmonic consonants by place of articulation:
+bilabialPulmonic          : List String
+bilabialPulmonic          = ["p", "b", "m", "ʙ", "ɸ", "β"]
+
 
 
 closeVowels     : List String
