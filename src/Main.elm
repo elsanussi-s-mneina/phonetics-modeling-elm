@@ -223,19 +223,6 @@ describeIPA x =
    "̇"   -> "Palatalization/Centralization"
    _     -> showPhonet (analyzeIPA x)
 
-typingButtonVowel : Model -> String -> Element Msg 
-typingButtonVowel model theText = 
-    Input.button
-        [ Background.color grey
-        , Font.color charcoal
-        , Border.color darkBlue
-        , padding 10
-        , Font.center
-        ]
-        { onPress = Just (Update { model |  currentUserInput = Just theText })
-        , label = labelFromGrapheme theText
-        }
-
 typingButton : Model -> String -> Element Msg
 typingButton model theText = 
     Input.button
@@ -252,38 +239,18 @@ typingButton model theText =
 noBlank : List String -> List String
 noBlank = List.filter (\x -> x /= " ") 
 
-createRowOfIPATable : Model -> List String -> String -> Element Msg
-createRowOfIPATable model graphemes heading =
-    let graphemesWithoutBlanks = noBlank graphemes
-        typingButtonOrSpace aChar voiced = 
-                if voiced
-                    then typingButtonVoiced model aChar
-                    else typingButtonVoiceless model aChar
-    in  Element.wrappedRow [spacing 10] 
-        (subsubKeyboardHeading heading :: List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
 
-createRowOfVowels : Model -> List String -> String -> Element Msg
-createRowOfVowels model graphemes heading =
+createRowOfGraphemes : Model -> List String -> String -> Element Msg
+createRowOfGraphemes model graphemes heading =
     let graphemesWithoutBlanks = noBlank graphemes
     in Element.wrappedRow [spacing 10] 
-       (subsubKeyboardHeading heading :: List.map (typingButtonForVowel model) graphemesWithoutBlanks)
+       (subsubKeyboardHeading heading :: List.map (typingButton model) graphemesWithoutBlanks)
 
-typingButtonForVowel : Model -> String -> Element Msg  
-typingButtonForVowel model grapheme = 
-    if List.member grapheme roundedVowels
-    then typingButtonRoundedVowel model grapheme
-    else typingButtonVowel model grapheme
 
 createRowOfKeys : Model -> List String -> Element Msg
 createRowOfKeys model graphemes =
     Element.wrappedRow [spacing 10, alignRight] (List.map (typingButton model) graphemes)
 
-createColumnOfKeys : String -> Model -> List String -> Element Msg
-createColumnOfKeys subHeadingText model graphemes =
-       Element.column [ height shrink, alignTop, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-        (  subKeyboardHeading subHeadingText
-           :: List.map (typingButton model) graphemes
-        )
 
 subKeyboardHeading : String -> Element Msg
 subKeyboardHeading userFacingText = 
@@ -331,14 +298,14 @@ view model =
                 (text "International Phonetic Alphabet")
             , Element.column [ height shrink, centerY, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
-                , createRowOfIPATable model plosivePulmonic         "plosives"       
-                , createRowOfIPATable model nasalPulmonic            "nasals"              
-                , createRowOfIPATable model trillPulmonic            "trills"                  
-                , createRowOfIPATable model tapOrFlapPulmonic        "taps or flaps"              
-                , createRowOfIPATable model fricativePulmonic        "fricative"     
-                , createRowOfIPATable model lateralFricativePulmonic "lateral fricative"
-                , createRowOfIPATable model approximantPulmonic      "approximant"
-                , createRowOfIPATable model lateralApproximantPulmonic "lateral approximant"
+                , createRowOfGraphemes model plosivePulmonic         "plosives"       
+                , createRowOfGraphemes model nasalPulmonic            "nasals"              
+                , createRowOfGraphemes model trillPulmonic            "trills"                  
+                , createRowOfGraphemes model tapOrFlapPulmonic        "taps or flaps"              
+                , createRowOfGraphemes model fricativePulmonic        "fricative"     
+                , createRowOfGraphemes model lateralFricativePulmonic "lateral fricative"
+                , createRowOfGraphemes model approximantPulmonic      "approximant"
+                , createRowOfGraphemes model lateralApproximantPulmonic "lateral approximant"
                 ]
             , Element.wrappedRow []
               [
@@ -359,19 +326,19 @@ view model =
                 ]
                 , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                     [ subKeyboardHeading "Vowels"
-                    ,  createRowOfVowels model closeVowels  "close"  
-                    ,  createRowOfVowels model nearCloseVowels "near close"
-                    ,  createRowOfVowels model closeMidVowels  "close-mid"
-                    ,  createRowOfVowels model midVowels      "mid"
-                    ,  createRowOfVowels model openMidVowels   "open-mid"
-                    ,  createRowOfVowels model nearOpenVowels "near open"
-                    ,  createRowOfVowels model openVowels     "open"
+                    ,  createRowOfGraphemes model closeVowels  "close"  
+                    ,  createRowOfGraphemes model nearCloseVowels "near close"
+                    ,  createRowOfGraphemes model closeMidVowels  "close-mid"
+                    ,  createRowOfGraphemes model midVowels      "mid"
+                    ,  createRowOfGraphemes model openMidVowels   "open-mid"
+                    ,  createRowOfGraphemes model nearOpenVowels "near open"
+                    ,  createRowOfGraphemes model openVowels     "open"
                     ]
               ]
             , Element.wrappedRow []
-                [ createColumnOfKeys "Diacritics" model diacriticsAndSuprasegmentals
-                , createColumnOfKeys "Suprasegmentals" model suprasegmentals
-                , createColumnOfKeys "Tones and Word Accents" model toneAndWordAccents
+                [ createRowOfGraphemes model diacriticsAndSuprasegmentals "Diacritics" 
+                , createRowOfGraphemes model suprasegmentals "Suprasegmentals"
+                , createRowOfGraphemes model toneAndWordAccents "Tones and Word Accents"
                 ]
     
             ]
