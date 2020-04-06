@@ -8,7 +8,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Element.Region as Region exposing (announce)
+import Element.Region as Region exposing (announce, description)
 import Html exposing (Html)
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
@@ -114,7 +114,8 @@ update msg model =
 typingButtonVoiced : Model -> String -> Element Msg
 typingButtonVoiced model theText =
     Input.button
-        [ Background.color grey
+        [ description (theText ++ " (a voiced consonant)")
+        , Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
@@ -135,7 +136,8 @@ typingButtonVoiced model theText =
 typingButtonVoiceless : Model -> String -> Element Msg 
 typingButtonVoiceless model theText =
     Input.button
-        [ Background.color grey
+        [ description (theText ++ " (a voiceless consonant)")
+        , Background.color grey
         , Font.color darkGrey
         , Border.color darkBlue
         , padding 10
@@ -155,7 +157,8 @@ typingButtonVoiceless model theText =
 typingButtonRoundedVowel : Model -> String -> Element Msg
 typingButtonRoundedVowel model theText =
     Input.button
-        [ Background.color grey
+        [ description (theText ++ " (a rounded vowel) ")
+        , Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
@@ -175,7 +178,8 @@ typingButtonRoundedVowel model theText =
 typingButtonVowel : Model -> String -> Element Msg 
 typingButtonVowel model theText = 
     Input.button
-        [ Background.color grey
+        [ description (theText ++ " ( a vowel )")
+        , Background.color grey
         , Font.color charcoal
         , Border.color darkBlue
         , padding 10
