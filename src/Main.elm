@@ -32,11 +32,7 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , suprasegmentals
                , diacriticsAndSuprasegmentals
                , toneAndWordAccents
-               , consonantsNonPulmonicRow1
-               , consonantsNonPulmonicRow2
-               , consonantsNonPulmonicRow3
-               , consonantsNonPulmonicRow4
-               , consonantsNonPulmonicRow5
+               , consonantsNonPulmonic
                )
 
 white : Color
@@ -109,47 +105,6 @@ update msg model =
                                           , currentUserInput = Nothing}
                 Nothing        -> new
             
-
-
-typingButtonVoiced : Model -> String -> Element Msg
-typingButtonVoiced model theText =
-    Input.button
-        [ Background.color grey
-        , Font.color charcoal
-        , Border.color darkBlue
-        , padding 10
-        , Font.center
-        ]
-        { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = labelFromGrapheme theText
-        }
-
-
-typingButtonVoiceless : Model -> String -> Element Msg 
-typingButtonVoiceless model theText =
-    Input.button
-        [ Background.color grey
-        , Font.color darkGrey
-        , Border.color darkBlue
-        , padding 10
-        , Font.center
-        ]
-        { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = labelFromGrapheme theText
-        }
-
-typingButtonRoundedVowel : Model -> String -> Element Msg
-typingButtonRoundedVowel model theText =
-    Input.button
-        [ Background.color grey
-        , Font.color charcoal
-        , Border.color darkBlue
-        , padding 10
-        , Font.center
-        ]
-        { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = labelFromGrapheme theText
-        }
 
 
 textModeVerbose : Bool
@@ -227,7 +182,6 @@ typingButton : Model -> String -> Element Msg
 typingButton model theText = 
     Input.button
         [ Background.color grey
-        , Font.color charcoal
         , Border.color darkBlue
         , padding 10
         , Font.center
@@ -240,16 +194,11 @@ noBlank : List String -> List String
 noBlank = List.filter (\x -> x /= " ") 
 
 
-createRowOfGraphemes : Model -> List String -> String -> Element Msg
-createRowOfGraphemes model graphemes heading =
+createRowOfGraphemes : Model -> List String -> Element Msg
+createRowOfGraphemes model graphemes =
     let graphemesWithoutBlanks = noBlank graphemes
     in Element.wrappedRow [spacing 10] 
-       (subsubKeyboardHeading heading :: List.map (typingButton model) graphemesWithoutBlanks)
-
-
-createRowOfKeys : Model -> List String -> Element Msg
-createRowOfKeys model graphemes =
-    Element.wrappedRow [spacing 10, alignRight] (List.map (typingButton model) graphemes)
+       (List.map (typingButton model) graphemesWithoutBlanks)
 
 
 subKeyboardHeading : String -> Element Msg
@@ -266,10 +215,13 @@ subsubKeyboardHeading userFacingText =
     el
         [ Region.heading 3
         , alignLeft
+        , padding 20
         , Font.size 25
         ]
         (text userFacingText)
 
+borderedColumn : List (Element Msg) -> Element Msg
+borderedColumn = Element.column [ height shrink, centerY, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
 view : Model -> Html Msg
 view model =
     Element.layout
@@ -296,50 +248,54 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.column [ height shrink, centerY, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+            , borderedColumn
                 [ subKeyboardHeading "Consonants (Pulmonic)"
-                , createRowOfGraphemes model plosivePulmonic         "plosives"       
-                , createRowOfGraphemes model nasalPulmonic            "nasals"              
-                , createRowOfGraphemes model trillPulmonic            "trills"                  
-                , createRowOfGraphemes model tapOrFlapPulmonic        "taps or flaps"              
-                , createRowOfGraphemes model fricativePulmonic        "fricative"     
-                , createRowOfGraphemes model lateralFricativePulmonic "lateral fricative"
-                , createRowOfGraphemes model approximantPulmonic      "approximant"
-                , createRowOfGraphemes model lateralApproximantPulmonic "lateral approximant"
+                , subsubKeyboardHeading "plosives"
+                , createRowOfGraphemes model plosivePulmonic
+                , subsubKeyboardHeading "nasals"
+                , createRowOfGraphemes model nasalPulmonic             
+                , subsubKeyboardHeading "trills"
+                , createRowOfGraphemes model trillPulmonic 
+                , subsubKeyboardHeading "taps or flaps"
+                , createRowOfGraphemes model tapOrFlapPulmonic 
+                , subsubKeyboardHeading "fricative"                      
+                , createRowOfGraphemes model fricativePulmonic  
+                , subsubKeyboardHeading "lateral fricative"
+                , createRowOfGraphemes model lateralFricativePulmonic 
+                , subsubKeyboardHeading "approximant"
+                , createRowOfGraphemes model approximantPulmonic
+                , subsubKeyboardHeading "lateral approximant"
+                , createRowOfGraphemes model lateralApproximantPulmonic 
                 ]
-            , Element.wrappedRow []
-              [
-                Element.column []
-                [
-                    Element.column [height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                        [ subKeyboardHeading "Consonants (Non-Pulmonic)"
-                        , createRowOfKeys model consonantsNonPulmonicRow1
-                        , createRowOfKeys model consonantsNonPulmonicRow2
-                        , createRowOfKeys model consonantsNonPulmonicRow3
-                        , createRowOfKeys model consonantsNonPulmonicRow4
-                        , createRowOfKeys model consonantsNonPulmonicRow5
-                        ]
-                    , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                        [ subKeyboardHeading "Other Symbols"
-                        , createRowOfKeys model otherSymbols
-                        ]
+            , borderedColumn
+                [ subKeyboardHeading "Vowels"
+                , subsubKeyboardHeading "close"
+                , createRowOfGraphemes model closeVowels
+                , subsubKeyboardHeading "near close"
+                , createRowOfGraphemes model nearCloseVowels 
+                , subsubKeyboardHeading "close-mid"
+                , createRowOfGraphemes model closeMidVowels  
+                , subsubKeyboardHeading "mid"
+                , createRowOfGraphemes model midVowels    
+                , subsubKeyboardHeading "open-mid"
+                , createRowOfGraphemes model openMidVowels   
+                , subsubKeyboardHeading "near open"
+                , createRowOfGraphemes model nearOpenVowels 
+                , subsubKeyboardHeading "open"
+                , createRowOfGraphemes model openVowels
                 ]
-                , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
-                    [ subKeyboardHeading "Vowels"
-                    ,  createRowOfGraphemes model closeVowels  "close"  
-                    ,  createRowOfGraphemes model nearCloseVowels "near close"
-                    ,  createRowOfGraphemes model closeMidVowels  "close-mid"
-                    ,  createRowOfGraphemes model midVowels      "mid"
-                    ,  createRowOfGraphemes model openMidVowels   "open-mid"
-                    ,  createRowOfGraphemes model nearOpenVowels "near open"
-                    ,  createRowOfGraphemes model openVowels     "open"
-                    ]
-              ]
-            , Element.wrappedRow []
-                [ createRowOfGraphemes model diacriticsAndSuprasegmentals "Diacritics" 
-                , createRowOfGraphemes model suprasegmentals "Suprasegmentals"
-                , createRowOfGraphemes model toneAndWordAccents "Tones and Word Accents"
+            , borderedColumn
+                [ subKeyboardHeading "Miscellaneous"
+                , subsubKeyboardHeading "Consonants (Non-Pulmonic)"
+                , createRowOfGraphemes model consonantsNonPulmonic 
+                , subsubKeyboardHeading "Other Symbols"
+                , createRowOfGraphemes model otherSymbols 
+                , subsubKeyboardHeading "Diacritics"
+                , createRowOfGraphemes model diacriticsAndSuprasegmentals  
+                , subsubKeyboardHeading "Suprasegmentals"
+                , createRowOfGraphemes model suprasegmentals
+                , subsubKeyboardHeading "Tones and Word Accents"
+                , createRowOfGraphemes model toneAndWordAccents 
                 ]
-    
             ]
 
