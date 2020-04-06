@@ -261,11 +261,12 @@ view model =
                 , height (px 200)
                 , spacing 12
                 , padding 10
+                , Font.size 33
                 ]
                 { text = model.phonologyText
                 , placeholder = Just (Input.placeholder [] (text ""))
                 , onChange = \new -> Update { model | phonologyText = new }
-                , label = Input.labelBelow [ Font.size 14 ] (text model.glossText)
+                , label = Input.labelBelow [ Font.size 23 ] (text model.glossText)
                 , spellcheck = False
                 }
             , el
