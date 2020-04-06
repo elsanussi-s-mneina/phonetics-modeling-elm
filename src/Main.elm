@@ -8,7 +8,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Element.Region as Region
+import Element.Region as Region exposing (announce)
 import Html exposing (Html)
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
@@ -268,7 +268,8 @@ view model =
     <|
         Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10]
             [ Input.multiline
-                [ height shrink
+                [ announce
+                , height shrink
                 , width (px 1200)
                 , height (px 200)
                 , spacing 12
