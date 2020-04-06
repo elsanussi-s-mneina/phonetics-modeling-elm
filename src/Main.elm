@@ -217,13 +217,13 @@ createRowOfIPATable model graphemes heading =
                 if voiced
                     then typingButtonVoiced model aChar
                     else typingButtonVoiceless model aChar
-    in  Element.row [spacing 10] 
+    in  Element.wrappedRow [spacing 10] 
         (subsubKeyboardHeading heading :: List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
 
 createRowOfVowels : Model -> List String -> Element Msg
 createRowOfVowels model graphemes =
     let graphemesWithoutBlanks = noBlank graphemes
-    in Element.row [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemesWithoutBlanks)
+    in Element.wrappedRow [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemesWithoutBlanks)
 
 typingButtonForVowel : Model -> String -> Element Msg  
 typingButtonForVowel model grapheme = 
@@ -233,7 +233,7 @@ typingButtonForVowel model grapheme =
 
 createRowOfKeys : Model -> List String -> Element Msg
 createRowOfKeys model graphemes =
-    Element.row [spacing 10, alignRight] (List.map (typingButton model) graphemes)
+    Element.wrappedRow [spacing 10, alignRight] (List.map (typingButton model) graphemes)
 
 createColumnOfKeys : String -> Model -> List String -> Element Msg
 createColumnOfKeys subHeadingText model graphemes =
@@ -266,11 +266,10 @@ view model =
         [ Font.size 20
         ]
     <|
-        Element.column [ width (px 1800), height shrink, centerY, centerX, spacing 36, padding 10]
+        Element.column [ height shrink, centerY, centerX, spacing 36, padding 10]
             [ Input.multiline
                 [ announce
                 , height shrink
-                , width (px 1200)
                 , height (px 200)
                 , spacing 12
                 , padding 10
@@ -288,7 +287,7 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
-            , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+            , Element.column [ height shrink, centerY, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
                 , createRowOfIPATable model plosivePulmonic         "plosives"       
                 , createRowOfIPATable model nasalPulmonic            "nasals"              
@@ -299,7 +298,7 @@ view model =
                 , createRowOfIPATable model approximantPulmonic      "approximant"
                 , createRowOfIPATable model lateralApproximantPulmonic "lateral approximant"
                 ]
-            , Element.row []
+            , Element.wrappedRow []
               [
                 Element.column []
                 [
@@ -316,7 +315,7 @@ view model =
                         , createRowOfKeys model otherSymbols
                         ]
                 ]
-                , Element.column [ width (px 500), height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
+                , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                     [ subKeyboardHeading "Vowels"
                     ,  createRowOfVowels model closeVowels    
                     ,  createRowOfVowels model nearCloseVowels
@@ -327,7 +326,7 @@ view model =
                     ,  createRowOfVowels model openVowels     
                     ]
               ]
-            , Element.row []
+            , Element.wrappedRow []
                 [ createColumnOfKeys "Diacritics" model diacriticsAndSuprasegmentals
                 , createColumnOfKeys "Suprasegmentals" model suprasegmentals
                 , createColumnOfKeys "Tones and Word Accents" model toneAndWordAccents
