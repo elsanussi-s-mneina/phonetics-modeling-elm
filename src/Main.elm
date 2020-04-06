@@ -207,11 +207,12 @@ typingButton model theText =
         , label = Element.text theText
         }
 
-
+noBlank : List String -> List String
+noBlank = List.filter (\x -> x /= " ") 
 
 createRowOfIPATable : Model -> List String -> Element Msg
 createRowOfIPATable model graphemes =
-    let graphemesWithoutBlanks = List.filter (\x -> x /= " ") graphemes
+    let graphemesWithoutBlanks = noBlank graphemes
         typingButtonOrSpace aChar voiced = 
                 if voiced
                     then typingButtonVoiced model aChar
@@ -220,7 +221,8 @@ createRowOfIPATable model graphemes =
 
 createRowOfVowels : Model -> List String -> Element Msg
 createRowOfVowels model graphemes =
-    Element.row [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemes)
+    let graphemesWithoutBlanks = noBlank graphemes
+    in Element.row [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemesWithoutBlanks)
 
 typingButtonForVowel : Model -> String -> Element Msg  
 typingButtonForVowel model grapheme = 
