@@ -210,14 +210,15 @@ typingButton model theText =
 noBlank : List String -> List String
 noBlank = List.filter (\x -> x /= " ") 
 
-createRowOfIPATable : Model -> List String -> Element Msg
-createRowOfIPATable model graphemes =
+createRowOfIPATable : Model -> List String -> String -> Element Msg
+createRowOfIPATable model graphemes heading =
     let graphemesWithoutBlanks = noBlank graphemes
         typingButtonOrSpace aChar voiced = 
                 if voiced
                     then typingButtonVoiced model aChar
                     else typingButtonVoiceless model aChar
-    in  Element.row [spacing 10] (List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
+    in  Element.row [spacing 10] 
+        (subsubKeyboardHeading heading :: List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
 
 createRowOfVowels : Model -> List String -> Element Msg
 createRowOfVowels model graphemes =
@@ -250,6 +251,15 @@ subKeyboardHeading userFacingText =
         ]
         (text userFacingText)
 
+subsubKeyboardHeading : String -> Element Msg
+subsubKeyboardHeading userFacingText = 
+    el
+        [ Region.heading 3
+        , alignLeft
+        , Font.size 25
+        ]
+        (text userFacingText)
+
 view : Model -> Html Msg
 view model =
     Element.layout
@@ -279,14 +289,14 @@ view model =
                 (text "International Phonetic Alphabet")
             , Element.column [ height shrink, centerY, alignLeft, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                 [ subKeyboardHeading "Consonants (Pulmonic)"
-                , createRowOfIPATable model plosivePulmonic           
-                , createRowOfIPATable model nasalPulmonic                           
-                , createRowOfIPATable model trillPulmonic                           
-                , createRowOfIPATable model tapOrFlapPulmonic                   
-                , createRowOfIPATable model fricativePulmonic                   
-                , createRowOfIPATable model lateralFricativePulmonic     
-                , createRowOfIPATable model approximantPulmonic               
-                , createRowOfIPATable model lateralApproximantPulmonic 
+                , createRowOfIPATable model plosivePulmonic         "plosives"       
+                , createRowOfIPATable model nasalPulmonic            "nasals"              
+                , createRowOfIPATable model trillPulmonic            "trills"                  
+                , createRowOfIPATable model tapOrFlapPulmonic        "taps or flaps"              
+                , createRowOfIPATable model fricativePulmonic        "fricative"     
+                , createRowOfIPATable model lateralFricativePulmonic "lateral fricative"
+                , createRowOfIPATable model approximantPulmonic      "approximant"
+                , createRowOfIPATable model lateralApproximantPulmonic "lateral approximant"
                 ]
             , Element.row []
               [
