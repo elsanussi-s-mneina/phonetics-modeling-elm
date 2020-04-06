@@ -220,10 +220,11 @@ createRowOfIPATable model graphemes heading =
     in  Element.wrappedRow [spacing 10] 
         (subsubKeyboardHeading heading :: List.map2 typingButtonOrSpace graphemesWithoutBlanks voicedMask)
 
-createRowOfVowels : Model -> List String -> Element Msg
-createRowOfVowels model graphemes =
+createRowOfVowels : Model -> List String -> String -> Element Msg
+createRowOfVowels model graphemes heading =
     let graphemesWithoutBlanks = noBlank graphemes
-    in Element.wrappedRow [spacing 10, alignRight] (List.map (typingButtonForVowel model) graphemesWithoutBlanks)
+    in Element.wrappedRow [spacing 10, alignRight] 
+       (subsubKeyboardHeading heading :: List.map (typingButtonForVowel model) graphemesWithoutBlanks)
 
 typingButtonForVowel : Model -> String -> Element Msg  
 typingButtonForVowel model grapheme = 
@@ -317,13 +318,13 @@ view model =
                 ]
                 , Element.column [ height shrink, centerY, centerX, spacing 10, padding 10, Border.rounded 20, Border.color charcoal, Border.width 3]
                     [ subKeyboardHeading "Vowels"
-                    ,  createRowOfVowels model closeVowels    
-                    ,  createRowOfVowels model nearCloseVowels
-                    ,  createRowOfVowels model closeMidVowels 
-                    ,  createRowOfVowels model midVowels      
-                    ,  createRowOfVowels model openMidVowels  
-                    ,  createRowOfVowels model nearOpenVowels 
-                    ,  createRowOfVowels model openVowels     
+                    ,  createRowOfVowels model closeVowels  "close"  
+                    ,  createRowOfVowels model nearCloseVowels "near close"
+                    ,  createRowOfVowels model closeMidVowels  "close-mid"
+                    ,  createRowOfVowels model midVowels      "mid"
+                    ,  createRowOfVowels model openMidVowels   "open-mid"
+                    ,  createRowOfVowels model nearOpenVowels "near open"
+                    ,  createRowOfVowels model openVowels     "open"
                     ]
               ]
             , Element.wrappedRow []
