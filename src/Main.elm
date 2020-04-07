@@ -3,12 +3,12 @@ module Main exposing (main)
 import Browser
 import Element exposing (Element, Color, 
     width, height, px, shrink, centerX, centerY, spacing, padding, text, 
-    el, alignLeft, alignRight, alignTop)
+    el, alignLeft)
+import Element.Region as Region
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Element.Region as Region exposing (announce, description)
 import Html exposing (Html)
 import Lib exposing (showPhonet)
 import Grapheme.InternationalPhoneticAlphabet exposing 
@@ -35,18 +35,10 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , consonantsNonPulmonic
                )
 
-white : Color
-white =
-    Element.rgb 1 1 1
-
 
 grey : Color
 grey =
     Element.rgb 0.9 0.9 0.9
-
-darkGrey : Color
-darkGrey =
-    Element.rgb 0.2 0.2 0.2
 
 charcoal : Color
 charcoal =
@@ -56,16 +48,6 @@ darkBlue : Color
 darkBlue =
     Element.rgb 0 0 0.9
 
-
-isEven : Int -> Bool
-isEven x = modBy 2 x == 0
-
-voicedMask : List Bool
-voicedMask = List.map isEven (List.range 1 (List.length plosivePulmonic))
-
-
-roundedVowels : List String
-roundedVowels = ["y", "ʉ", "u", "ʏ",            "ʊ", "ø", "ɵ", "o", "œ", "ɞ", "ɔ",  "ɶ", "ɒ"]
 
 
 main : Program () Model  Msg
