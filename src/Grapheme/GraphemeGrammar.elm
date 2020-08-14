@@ -56,7 +56,7 @@ isAscender character = List.member character ascenders
 descenders : List Char
 descenders =
   ['p', 'ɟ', 'g', 'q', 'ɱ', 'ɽ', 'ʒ', 'ʂ', 'ʐ', 'ç', 'ʝ', 'ɣ', 'χ', 'ɻ', 'j',
-   'ɰ', 'ɥ', 'y', 'ɳ', 'ɲ', 'ʈ', 'ɖ', 'ɸ', 'β', 'ʃ', 'ɮ', 'ɭ', 'ɧ']
+   'ɰ', 'ɥ', 'y', 'ɳ', 'ɲ', 'ŋ', 'ʈ', 'ɖ', 'ɸ', 'β', 'ʃ', 'ɮ', 'ɭ', 'ɧ']
 
 
 {-|
