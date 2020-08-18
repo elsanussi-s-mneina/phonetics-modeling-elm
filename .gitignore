@@ -1,2 +1,8 @@
-
+# Ignore Mac OS Finder directory settings file
 .DS_Store
+
+# Ignore folder where Elm stores intermediate and object files
+elm-stuff/
+
+# Ignore folder for Elm package downloads
+.elm/
