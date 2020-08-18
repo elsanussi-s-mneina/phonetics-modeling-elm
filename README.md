@@ -1,7 +1,15 @@
 
+To see a demonstration of the program, without having to install it, please [see the screenshots](https://github.com/elsanussi-s-mneina/phonetics-modeling-elm/wiki/screenshots).
 
+
+
+
+
+To Intall Elm:
 Go to https://guide.elm-lang.org/install/elm.html
 To get started.
+
+
 
 
 This project was created using the following command:
