@@ -33,6 +33,7 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , diacriticsAndSuprasegmentals
                , toneAndWordAccents
                , consonantsNonPulmonic
+               , graphemesOfIPA
                )
 
 
@@ -64,7 +65,8 @@ init =
     { phonologyText = ""
     , glossText = "Press buttons below to write text here."  -- This should contain what we call the phonemes in English
     , currentUserInput = Nothing
-    , showDescriptionOnButtons = True
+    , showDescriptionOnButtons = False
+    , categorizeButtons = False
     }
 
 
@@ -73,6 +75,7 @@ type alias Model =
     , glossText : String
     , currentUserInput : Maybe String
     , showDescriptionOnButtons : Bool
+    , categorizeButtons : Bool
     }
 
 
@@ -234,54 +237,70 @@ view model =
                               , icon = Input.defaultCheckbox
                               , label = Input.labelRight [] (text "Show description of phonemes on buttons.")
                               }
+            , Input.checkbox []
+                              { checked = model.categorizeButtons
+                              , onChange = \new -> Update { model | categorizeButtons = new }
+                              , icon = Input.defaultCheckbox
+                              , label = Input.labelRight [] (text "Organize buttons in categories.")
+                              }
             , borderedColumn
-                [ subKeyboardHeading "Consonants (Pulmonic)"
-                , subsubKeyboardHeading "plosives"
-                , createRowOfGraphemes model plosivePulmonic
-                , subsubKeyboardHeading "nasals"
-                , createRowOfGraphemes model nasalPulmonic             
-                , subsubKeyboardHeading "trills"
-                , createRowOfGraphemes model trillPulmonic 
-                , subsubKeyboardHeading "taps or flaps"
-                , createRowOfGraphemes model tapOrFlapPulmonic 
-                , subsubKeyboardHeading "fricative"                      
-                , createRowOfGraphemes model fricativePulmonic  
-                , subsubKeyboardHeading "lateral fricative"
-                , createRowOfGraphemes model lateralFricativePulmonic 
-                , subsubKeyboardHeading "approximant"
-                , createRowOfGraphemes model approximantPulmonic
-                , subsubKeyboardHeading "lateral approximant"
-                , createRowOfGraphemes model lateralApproximantPulmonic 
-                ]
-            , borderedColumn
-                [ subKeyboardHeading "Vowels"
-                , subsubKeyboardHeading "close"
-                , createRowOfGraphemes model closeVowels
-                , subsubKeyboardHeading "near close"
-                , createRowOfGraphemes model nearCloseVowels 
-                , subsubKeyboardHeading "close-mid"
-                , createRowOfGraphemes model closeMidVowels  
-                , subsubKeyboardHeading "mid"
-                , createRowOfGraphemes model midVowels    
-                , subsubKeyboardHeading "open-mid"
-                , createRowOfGraphemes model openMidVowels   
-                , subsubKeyboardHeading "near open"
-                , createRowOfGraphemes model nearOpenVowels 
-                , subsubKeyboardHeading "open"
-                , createRowOfGraphemes model openVowels
-                ]
-            , borderedColumn
-                [ subKeyboardHeading "Miscellaneous"
-                , subsubKeyboardHeading "Consonants (Non-Pulmonic)"
-                , createRowOfGraphemes model consonantsNonPulmonic 
-                , subsubKeyboardHeading "Other Symbols"
-                , createRowOfGraphemes model otherSymbols 
-                , subsubKeyboardHeading "Diacritics"
-                , createRowOfGraphemes model diacriticsAndSuprasegmentals  
-                , subsubKeyboardHeading "Suprasegmentals"
-                , createRowOfGraphemes model suprasegmentals
-                , subsubKeyboardHeading "Tones and Word Accents"
-                , createRowOfGraphemes model toneAndWordAccents 
-                ]
+                (
+                if model.categorizeButtons
+                  then
+                    [ borderedColumn
+                      [ subKeyboardHeading "Consonants (Pulmonic)"
+                      , subsubKeyboardHeading "plosives"
+                      , createRowOfGraphemes model plosivePulmonic
+                      , subsubKeyboardHeading "nasals"
+                      , createRowOfGraphemes model nasalPulmonic
+                      , subsubKeyboardHeading "trills"
+                      , createRowOfGraphemes model trillPulmonic
+                      , subsubKeyboardHeading "taps or flaps"
+                      , createRowOfGraphemes model tapOrFlapPulmonic
+                      , subsubKeyboardHeading "fricative"
+                      , createRowOfGraphemes model fricativePulmonic
+                      , subsubKeyboardHeading "lateral fricative"
+                      , createRowOfGraphemes model lateralFricativePulmonic
+                      , subsubKeyboardHeading "approximant"
+                      , createRowOfGraphemes model approximantPulmonic
+                      , subsubKeyboardHeading "lateral approximant"
+                      , createRowOfGraphemes model lateralApproximantPulmonic
+                      ]
+                    , borderedColumn
+                        [ subKeyboardHeading "Vowels"
+                        , subsubKeyboardHeading "close"
+                        , createRowOfGraphemes model closeVowels
+                        , subsubKeyboardHeading "near close"
+                        , createRowOfGraphemes model nearCloseVowels
+                        , subsubKeyboardHeading "close-mid"
+                        , createRowOfGraphemes model closeMidVowels
+                        , subsubKeyboardHeading "mid"
+                        , createRowOfGraphemes model midVowels
+                        , subsubKeyboardHeading "open-mid"
+                        , createRowOfGraphemes model openMidVowels
+                        , subsubKeyboardHeading "near open"
+                        , createRowOfGraphemes model nearOpenVowels
+                        , subsubKeyboardHeading "open"
+                        , createRowOfGraphemes model openVowels
+                        ]
+                    , borderedColumn
+                        [ subKeyboardHeading "Miscellaneous"
+                        , subsubKeyboardHeading "Consonants (Non-Pulmonic)"
+                        , createRowOfGraphemes model consonantsNonPulmonic
+                        , subsubKeyboardHeading "Other Symbols"
+                        , createRowOfGraphemes model otherSymbols
+                        , subsubKeyboardHeading "Diacritics"
+                        , createRowOfGraphemes model diacriticsAndSuprasegmentals
+                        , subsubKeyboardHeading "Suprasegmentals"
+                        , createRowOfGraphemes model suprasegmentals
+                        , subsubKeyboardHeading "Tones and Word Accents"
+                        , createRowOfGraphemes model toneAndWordAccents
+                        ]
+                    ]
+                  else
+                    [ subKeyboardHeading "IPA characters"
+                    , createRowOfGraphemes model graphemesOfIPA
+                    ]
+                )
             ]
 
