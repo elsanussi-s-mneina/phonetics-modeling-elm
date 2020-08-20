@@ -64,6 +64,7 @@ init =
     { phonologyText = ""
     , glossText = "Press buttons below to write text here."  -- This should contain what we call the phonemes in English
     , currentUserInput = Nothing
+    , showDescriptionOnButtons = True
     }
 
 
@@ -71,6 +72,7 @@ type alias Model =
     { phonologyText : String
     , glossText : String
     , currentUserInput : Maybe String
+    , showDescriptionOnButtons : Bool
     }
 
 
@@ -88,12 +90,8 @@ update msg model =
                 Nothing        -> new
             
 
-
-textModeVerbose : Bool
-textModeVerbose = True
-
-labelFromGrapheme : String -> Element Msg
-labelFromGrapheme grapheme =
+labelFromGrapheme : String -> Bool -> Element Msg
+labelFromGrapheme grapheme textModeVerbose =
     if textModeVerbose
       then Element.text ( grapheme ++ " " ++ describeIPA grapheme)
       else Element.text grapheme
@@ -169,7 +167,7 @@ typingButton model theText =
         , Font.center
         ]
         { onPress = Just (Update { model | currentUserInput = Just theText })
-        , label = labelFromGrapheme theText
+        , label = labelFromGrapheme theText model.showDescriptionOnButtons
         }
 
 noBlank : List String -> List String
@@ -230,6 +228,12 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
+            , Input.checkbox []
+                              { checked = model.showDescriptionOnButtons
+                              , onChange = \new -> Update { model | showDescriptionOnButtons = new }
+                              , icon = Input.defaultCheckbox
+                              , label = Input.labelRight [] (text "Show description of phonemes on buttons.")
+                              }
             , borderedColumn
                 [ subKeyboardHeading "Consonants (Pulmonic)"
                 , subsubKeyboardHeading "plosives"

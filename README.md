@@ -57,3 +57,15 @@ Run the following command in the terminal:
 Open your web browser to:
   `localhost:8000/src/Main.elm`
 
+# How to run the demo
+1. Open index.html in the current directory. 
+A browser window should open with the demo applicaiton.
+
+The demo file is index.html in the current directory. It will run without
+a server in a web browser.
+
+It shows a version of the program, not necessarily as new
+as the rest of the code in the program.
+
+If you are a developer, do not edit the index.html file, since it
+is generated code.
