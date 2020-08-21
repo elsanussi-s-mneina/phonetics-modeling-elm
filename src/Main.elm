@@ -34,6 +34,8 @@ import Grapheme.InternationalPhoneticAlphabet exposing
                , toneAndWordAccents
                , consonantsNonPulmonic
                , graphemesOfIPA
+               , voicedIPA
+               , devoicedIPA
                )
 
 
@@ -64,23 +66,26 @@ init : Model
 init =
     { phonologyText = ""
     , glossText = "Press buttons below to write text here."  -- This should contain what we call the phonemes in English
-    , currentUserInput = Nothing
     , showDescriptionOnButtons = False
     , categorizeButtons = False
+    , currentUserInput = Nothing
+    , workspaceText = ""
     }
 
 
 type alias Model =
     { phonologyText : String
     , glossText : String
-    , currentUserInput : Maybe String
     , showDescriptionOnButtons : Bool
     , categorizeButtons : Bool
+    , currentUserInput : Maybe String
+    , workspaceText : String
     }
 
 
 type Msg
     = Update Model
+    | NoMsg
 
 update : Msg -> Model -> Model
 update msg model =
@@ -91,7 +96,7 @@ update msg model =
                 Just userInput -> { new | phonologyText = model.phonologyText ++ userInput, glossText = "The most recently entered character is [ " ++ userInput ++ " ] which is " ++ showPhonet (analyzeIPA userInput)
                                           , currentUserInput = Nothing}
                 Nothing        -> new
-            
+        NoMsg -> model
 
 labelFromGrapheme : String -> Bool -> Element Msg
 labelFromGrapheme grapheme textModeVerbose =
@@ -231,6 +236,33 @@ view model =
                 , Font.size 36
                 ]
                 (text "International Phonetic Alphabet")
+            , Element.row []
+            [ Input.text []
+              { label = Input.labelLeft [] (text "Workspace:")
+              , onChange = \new -> Update {model | workspaceText = new}
+              , placeholder = Nothing
+              , text = model.workspaceText
+              }
+            , Input.button
+              [ Background.color grey
+              , Border.color darkBlue
+              , padding 10
+              , Font.center
+              ]
+              { onPress = Just (Update { model | workspaceText = voicedIPA model.workspaceText })
+              , label = Element.text "voice it"
+              }
+            , Input.button
+              [ Background.color grey
+              , Border.color darkBlue
+              , padding 10
+              , Font.center
+              ]
+              { onPress = Just (Update { model | workspaceText = devoicedIPA model.workspaceText })
+              , label = Element.text "devoice it"
+              }
+
+            ]
             , Input.checkbox []
                               { checked = model.showDescriptionOnButtons
                               , onChange = \new -> Update { model | showDescriptionOnButtons = new }
