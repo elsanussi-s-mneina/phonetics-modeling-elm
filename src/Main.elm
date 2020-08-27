@@ -70,6 +70,7 @@ init =
     , categorizeButtons = False
     , currentUserInput = Nothing
     , workspaceText = ""
+    , workspaceResult = ""
     }
 
 
@@ -80,6 +81,7 @@ type alias Model =
     , categorizeButtons : Bool
     , currentUserInput : Maybe String
     , workspaceText : String
+    , workspaceResult : String
     }
 
 
@@ -249,7 +251,7 @@ view model =
               , padding 10
               , Font.center
               ]
-              { onPress = Just (Update { model | workspaceText = voicedIPA model.workspaceText })
+              { onPress = Just (Update { model | workspaceResult = voicedIPA model.workspaceText })
               , label = Element.text "voice it"
               }
             , Input.button
@@ -258,10 +260,15 @@ view model =
               , padding 10
               , Font.center
               ]
-              { onPress = Just (Update { model | workspaceText = devoicedIPA model.workspaceText })
+              { onPress = Just (Update { model | workspaceResult = devoicedIPA model.workspaceText })
               , label = Element.text "devoice it"
               }
-
+            , Input.text []
+              { label = Input.labelLeft [] (text "Result:")
+              , onChange = \textInsideTextbox -> NoMsg
+              , placeholder = Nothing
+              , text = model.workspaceResult
+              }
             ]
             , Input.checkbox []
                               { checked = model.showDescriptionOnButtons
