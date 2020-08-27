@@ -93,7 +93,7 @@ update msg model =
       case msg of
         Update new ->
             case new.currentUserInput of
-                Just userInput -> { new | phonologyText = model.phonologyText ++ userInput, glossText = "The most recently entered character is [ " ++ userInput ++ " ] which is " ++ showPhonet (analyzeIPA userInput)
+                Just userInput -> { new | phonologyText = model.phonologyText ++ userInput, glossText = "The most recently entered character is [ " ++ userInput ++ " ] which represents a " ++ showPhonet (analyzeIPA userInput) ++ "."
                                           , currentUserInput = Nothing}
                 Nothing        -> new
         NoMsg -> model
